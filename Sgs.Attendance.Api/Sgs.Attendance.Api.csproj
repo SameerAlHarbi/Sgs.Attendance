@@ -5,11 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Sameer.Shared.Data" Version="1.2.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Sgs.Attendance.BusinessLogic\Sgs.Attendance.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Sgs.Attendance.DataAccess\Sgs.Attendance.DataAccess.csproj" />
+    <ProjectReference Include="..\Sgs.Attendance.Model\Sgs.Attendance.Model.csproj" />
   </ItemGroup>
 
 </Project>
