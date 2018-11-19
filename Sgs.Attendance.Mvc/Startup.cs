@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Sgs.Attendance.Mvc.Middleware;
 using Sgs.Attendance.Mvc.Services;
 
 namespace Sgs.Attendance.Mvc
@@ -55,6 +56,8 @@ namespace Sgs.Attendance.Mvc
             }
 
             app.UseStaticFiles();
+
+            app.UseNodeModules(env.ContentRootPath);
 
             app.UseMvc(configureRoute);
 
