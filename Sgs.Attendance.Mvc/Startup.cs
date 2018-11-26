@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,8 @@ namespace Sgs.Attendance.Mvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IAppInfo, AppInfo>();
+
+            services.AddAutoMapper();
 
             services.AddMvc();
         }

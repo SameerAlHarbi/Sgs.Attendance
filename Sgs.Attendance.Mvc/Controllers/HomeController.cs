@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,12 @@ namespace Sgs.Attendance.Mvc.Controllers
 {
     public class HomeController : BaseController
     {
-        public async Task<IActionResult> Index()
+        public HomeController(IMapper mapper, ILogger<HomeController> logger) 
+            : base(mapper, logger)
+        {
+        }
+
+        public IActionResult Index()
         {
             return View();
         }

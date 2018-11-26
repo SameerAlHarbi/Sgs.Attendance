@@ -49,10 +49,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Scripts\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="node_modules\%40fortawesome\fontawesome-free-webfonts\less\fa-brands.less" />
     <None Include="node_modules\%40fortawesome\fontawesome-free-webfonts\less\fa-regular.less" />
     <None Include="node_modules\%40fortawesome\fontawesome-free-webfonts\less\fa-solid.less" />
