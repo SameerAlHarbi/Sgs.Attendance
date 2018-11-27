@@ -17,6 +17,7 @@ namespace Sgs.Attendance.Mvc.Controllers
 
         public IActionResult Index()
         {
+            ViewData["StatusMessage"] = this.StatusMessage;
             return View();
         }
     }
