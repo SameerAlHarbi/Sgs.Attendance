@@ -89,11 +89,6 @@ namespace Sgs.Attendance.Api
             }
 
             app.UseMvc();
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Can't find any thing !!");
-            });
         }
     }
 }

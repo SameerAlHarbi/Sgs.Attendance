@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Sgs.Attendance.Mvc.Middleware;
+using Sameer.Shared.Helpers.Mvc;
 using Sgs.Attendance.Mvc.Services;
 
 namespace Sgs.Attendance.Mvc
@@ -63,17 +58,10 @@ namespace Sgs.Attendance.Mvc
             app.UseNodeModules(env.ContentRootPath);
 
             app.UseMvc(configureRoute);
-
-            app.Run(async (context) =>
-            {
-                context.Response.ContentType = "text/plain";
-                await context.Response.WriteAsync("Can't find any thing !!");
-            });
         }
 
         private void configureRoute(IRouteBuilder routeBuilder)
         {
-
             routeBuilder.MapRoute(name: "users",
                    template: "Users/{action=Index}/{username?}",
                    defaults: new { controller = "Users" });
