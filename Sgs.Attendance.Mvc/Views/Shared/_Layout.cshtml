@@ -20,14 +20,18 @@
     <link href="~/node_modules/@@fortawesome/fontawesome-free-webfonts/css/fa-brands.css" rel="stylesheet" />
     <link href="~/node_modules/toastr/build/toastr.css" rel="stylesheet" />
     <link href="~/Style/MainStyle.css" rel="stylesheet" />
+    <link href="~/Style/ClockStyle.css" rel="stylesheet" />
 
     <title>@ViewBag.Title</title>
+
     @RenderSection("header", required: false)
 
 </head>
 <body>
 
     @*<partial name="_Header" />*@
+
+    <partial name="_Clock" />
 
     <div class="container" style="margin-top:30px;">
         @RenderBody()
@@ -40,7 +44,9 @@
     <script src="~/node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/node_modules/toastr/build/toastr.min.js"></script>
     <script src="~/Scripts/toastr-options.js"></script>
+    <script src="~/Scripts/clock.js"></script>
     <script src="~/Scripts/app.js"></script>
+
 
     <partial name="_LayoutScript"/>
 

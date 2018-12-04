@@ -62,13 +62,13 @@ namespace Sgs.Attendance.Mvc
 
         private void configureRoute(IRouteBuilder routeBuilder)
         {
+            //TODO: Delete this Users route :)
             routeBuilder.MapRoute(name: "users",
                    template: "Users/{action=Index}/{username?}",
                    defaults: new { controller = "Users" });
 
             routeBuilder.MapRoute("Default",
                 "{controller=Home}/{action=Index}/{id?}");
-
         }
     }
 }
