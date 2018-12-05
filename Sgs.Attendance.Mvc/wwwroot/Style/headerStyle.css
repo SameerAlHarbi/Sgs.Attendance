@@ -1,0 +1,39 @@
+﻿.header {
+    box-shadow: 0px 0px 10px #808080;
+}
+
+.header-top {
+    height: 130px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    background: linear-gradient(110deg,#84dedc, #0f7f80);
+}
+
+.header-top > div {
+    flex: 2;
+}
+
+.header-title {
+}
+
+.header-clock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box !important;
+}
+
+.header-top > .header-clock {
+    flex: 1;
+}
+
+.header-logo {
+    margin-right: auto;
+}
+
+.header-buttom {
+    min-height: 60px;
+    background-image: url('../Images/islamic-back-blue.jpg');
+    background-size: cover;
+}
