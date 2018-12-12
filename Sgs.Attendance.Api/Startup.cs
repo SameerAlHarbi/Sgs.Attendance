@@ -16,7 +16,7 @@ namespace Sgs.Attendance.Api
     public class Startup
     {
         private IConfiguration _config { get; }
-        IHostingEnvironment _env;
+        private IHostingEnvironment _env;
 
         public Startup(IConfiguration configuration
             , IHostingEnvironment environment)

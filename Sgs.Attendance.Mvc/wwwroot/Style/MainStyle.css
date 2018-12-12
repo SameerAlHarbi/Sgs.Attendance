@@ -18,3 +18,8 @@ body {
     background: linear-gradient(110deg, #e6e6e6, #f0f0f0);
     box-shadow: 0px 0px 10px #808080;
 }
+
+.toast-top-right
+{
+    margin-top:280px;
+}
