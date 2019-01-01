@@ -77,11 +77,11 @@ namespace Sgs.Attendance.Api.Controllers
             {
                 _logger.LogInformation("Creating a new attendance system !");
 
-                var newData = _mapper.Map<AttendanceSystem>(model);
+                var newData = _mapper.Map<WorkShiftsSystem>(model);
 
                 using (_attendanceSystemsManager)
                 {
-                    RepositoryActionResult<AttendanceSystem> saveResult = await _attendanceSystemsManager.InsertNewAsync(newData);
+                    RepositoryActionResult<WorkShiftsSystem> saveResult = await _attendanceSystemsManager.InsertNewAsync(newData);
 
                     if (saveResult.Status == RepositoryActionStatus.Created)
                     {
@@ -128,7 +128,7 @@ namespace Sgs.Attendance.Api.Controllers
 
                     _mapper.Map(model, currentData);
 
-                    RepositoryActionResult<AttendanceSystem> updateResult = await _attendanceSystemsManager.UpdateItemAsync(currentData);
+                    RepositoryActionResult<WorkShiftsSystem> updateResult = await _attendanceSystemsManager.UpdateItemAsync(currentData);
                     if (updateResult.Status == RepositoryActionStatus.Updated)
                     {
                         return _mapper.Map<AttendanceSystemModel>(currentData);
@@ -165,7 +165,7 @@ namespace Sgs.Attendance.Api.Controllers
                         return BadRequest(NOTFOUND_MESSAGE);
                     }
 
-                    RepositoryActionResult<AttendanceSystem> deleteResult = await _attendanceSystemsManager.DeleteItemAsync(currentData.Id);
+                    RepositoryActionResult<WorkShiftsSystem> deleteResult = await _attendanceSystemsManager.DeleteItemAsync(currentData.Id);
                     if (deleteResult.Status == RepositoryActionStatus.Deleted)
                     {
                         return NoContent();

@@ -6,7 +6,7 @@ using Sgs.Attendance.Model;
 
 namespace Sgs.Attendance.Api.Models
 {
-    public class AttendanceSystemUrlResolver : IValueResolver<AttendanceSystem, AttendanceSystemModel, string>
+    public class AttendanceSystemUrlResolver : IValueResolver<WorkShiftsSystem, AttendanceSystemModel, string>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -15,7 +15,7 @@ namespace Sgs.Attendance.Api.Models
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string Resolve(AttendanceSystem source, AttendanceSystemModel destination, string destMember, ResolutionContext context)
+        public string Resolve(WorkShiftsSystem source, AttendanceSystemModel destination, string destMember, ResolutionContext context)
         {
             var url = (IUrlHelper)_httpContextAccessor.HttpContext.Items[BaseController.URLHELPER];
             string result = url.Link("AttendanceSystemGetByCode", new { code = source.Code });

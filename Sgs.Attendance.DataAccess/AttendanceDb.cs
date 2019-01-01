@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Sgs.Attendance.Model;
 
 namespace Sgs.Attendance.DataAccess
@@ -10,6 +9,6 @@ namespace Sgs.Attendance.DataAccess
         {
         }
 
-        DbSet<AttendanceSystem> AttendanceSystems { get; set; }
+        DbSet<WorkShiftsSystem> WorkShiftsSystems { get; set; }
     }
 }

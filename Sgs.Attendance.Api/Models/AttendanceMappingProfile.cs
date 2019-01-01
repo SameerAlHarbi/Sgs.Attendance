@@ -7,7 +7,7 @@ namespace Sgs.Attendance.Api.Models
     {
         public AttendanceMappingProfile()
         {
-            CreateMap<AttendanceSystem, AttendanceSystemModel>()
+            CreateMap<WorkShiftsSystem, AttendanceSystemModel>()
                 .ForMember(s => s.Url, opt => opt.ResolveUsing<AttendanceSystemUrlResolver>())
                 .ReverseMap();
         }
