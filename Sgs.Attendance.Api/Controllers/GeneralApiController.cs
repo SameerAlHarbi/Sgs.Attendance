@@ -58,6 +58,41 @@ namespace Sgs.Attendance.Api.Controllers
             return BadRequest();
         }
 
+        [HttpGet("paged")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<List<VM>>> GetPagedAsync(string sort = "id",int pageNumber=1,int pageSize=100)
+        {
+            try
+            {
+                using (_dataManager)
+                {
+                    var pagedDataList = await _dataManager.GetPagedDataList(pageNumber,pageSize,sort);
+                    AddPaginationHeader(pagedDataList);
+                    return _mapper.Map<List<VM>>(pagedDataList.DataList);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while getting All data !. error message : {ex.Message}");
+            }
+
+            return BadRequest();
+        }
+
+        protected virtual void AddPaginationHeader(PagedDataResult<M> pagedData)
+        {
+            var paginationHeader = new
+            {
+                currentPage = pagedData.PageNumber,
+                pageSize = pagedData.PageSize,
+                totalCount = pagedData.DataCount,
+                totalPages = pagedData.PagesCount
+            };
+
+            HttpContext.Response.Headers.Add(key: "X-Pagination", value: Newtonsoft.Json.JsonConvert.SerializeObject(paginationHeader));
+        }
+
         [HttpGet("{id}", Name = "[controller]_[action]")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
