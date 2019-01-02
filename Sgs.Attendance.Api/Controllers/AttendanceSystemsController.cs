@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Sameer.Shared;
 using Sameer.Shared.Data;
 using Sgs.Attendance.Api.Models;
 using Sgs.Attendance.BusinessLogic;
@@ -17,9 +18,9 @@ namespace Sgs.Attendance.Api.Controllers
     [Route("api/[controller]")]
     public class AttendanceSystemsController : BaseController
     {
-        private readonly AttendanceSystemsManager _attendanceSystemsManager;
+        private readonly WorkShiftsSystemsManager _attendanceSystemsManager;
 
-        public AttendanceSystemsController(AttendanceSystemsManager attendanceSystemsManager, IMapper mapper, ILogger<AttendanceSystemsController> logger) : base(mapper, logger)
+        public AttendanceSystemsController(WorkShiftsSystemsManager attendanceSystemsManager, IMapper mapper, ILogger<AttendanceSystemsController> logger) : base(mapper, logger)
         {
             _attendanceSystemsManager = attendanceSystemsManager;
         }
@@ -27,14 +28,14 @@ namespace Sgs.Attendance.Api.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<List<AttendanceSystemModel>>> GetAsync()
+        public async Task<ActionResult<List<WorkShiftsSystemModel>>> GetAsync()
         {
             try
             {
                 using (_attendanceSystemsManager)
                 {
                     var attendanceSystemsList = await _attendanceSystemsManager.GetAllAsNoTrackingListAsync();
-                    return _mapper.Map<List<AttendanceSystemModel>>(attendanceSystemsList);
+                    return _mapper.Map<List<WorkShiftsSystemModel>>(attendanceSystemsList);
                 }
             }
             catch (Exception)
@@ -47,7 +48,7 @@ namespace Sgs.Attendance.Api.Controllers
         [HttpGet("{code}", Name = "AttendanceSystemGetByCode")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<AttendanceSystemModel>> GetByCodeAsync(string code)
+        public async Task<ActionResult<WorkShiftsSystemModel>> GetByCodeAsync(string code)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace Sgs.Attendance.Api.Controllers
                     if (attendanceSystem == null)
                         return BadRequest(NOTFOUND_MESSAGE);
 
-                    return _mapper.Map<AttendanceSystemModel>(attendanceSystem);
+                    return _mapper.Map<WorkShiftsSystemModel>(attendanceSystem);
                 }
             }
             catch (Exception)
@@ -71,7 +72,7 @@ namespace Sgs.Attendance.Api.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<AttendanceSystemModel>> PostAsync(AttendanceSystemModel model)
+        public async Task<ActionResult<WorkShiftsSystemModel>> PostAsync(WorkShiftsSystemModel model)
         {
             try
             {
@@ -81,13 +82,13 @@ namespace Sgs.Attendance.Api.Controllers
 
                 using (_attendanceSystemsManager)
                 {
-                    RepositoryActionResult<WorkShiftsSystem> saveResult = await _attendanceSystemsManager.InsertNewAsync(newData);
+                    var saveResult = await _attendanceSystemsManager.InsertNewAsync(newData);
 
                     if (saveResult.Status == RepositoryActionStatus.Created)
                     {
                         return CreatedAtAction(nameof(GetByCodeAsync),
                             new { code = model.Code },
-                            _mapper.Map<AttendanceSystemModel>(newData));
+                            _mapper.Map<WorkShiftsSystemModel>(newData));
                     }
                     else
                     {
@@ -111,7 +112,7 @@ namespace Sgs.Attendance.Api.Controllers
         [HttpPut("{code}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<AttendanceSystemModel>> PutAsync(string code, AttendanceSystemModel model)
+        public async Task<ActionResult<WorkShiftsSystemModel>> PutAsync(string code, WorkShiftsSystemModel model)
         {
             try
             {
@@ -128,10 +129,10 @@ namespace Sgs.Attendance.Api.Controllers
 
                     _mapper.Map(model, currentData);
 
-                    RepositoryActionResult<WorkShiftsSystem> updateResult = await _attendanceSystemsManager.UpdateItemAsync(currentData);
+                    var updateResult = await _attendanceSystemsManager.UpdateItemAsync(currentData);
                     if (updateResult.Status == RepositoryActionStatus.Updated)
                     {
-                        return _mapper.Map<AttendanceSystemModel>(currentData);
+                        return _mapper.Map<WorkShiftsSystemModel>(currentData);
                     }
                     else
                     {
@@ -165,7 +166,7 @@ namespace Sgs.Attendance.Api.Controllers
                         return BadRequest(NOTFOUND_MESSAGE);
                     }
 
-                    RepositoryActionResult<WorkShiftsSystem> deleteResult = await _attendanceSystemsManager.DeleteItemAsync(currentData.Id);
+                    var deleteResult = await _attendanceSystemsManager.DeleteItemAsync(currentData.Id);
                     if (deleteResult.Status == RepositoryActionStatus.Deleted)
                     {
                         return NoContent();

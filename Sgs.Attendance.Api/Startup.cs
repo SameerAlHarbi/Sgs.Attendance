@@ -29,15 +29,11 @@ namespace Sgs.Attendance.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AttendanceDb>(options => 
-                options.UseSqlServer(_config.GetConnectionString("DefaultConnection"))
-                ,ServiceLifetime.Scoped);
-
-            services.AddScoped<IRepository, Repository<AttendanceDb>>();
-            services.AddScoped<AttendanceSystemsManager>();
+            services.AddSameerDbDataManagers<AttendanceDb>(_config);
 
             //AutoMapper
             services.AddAutoMapper();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //CORS
@@ -80,9 +76,6 @@ namespace Sgs.Attendance.Api
             , IHostingEnvironment env
             , ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(_config.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
