@@ -18,8 +18,7 @@ namespace Sgs.Attendance.Api.Models
         public string Resolve(WorkShiftsSystem source, WorkShiftsSystemModel destination, string destMember, ResolutionContext context)
         {
             var url = (IUrlHelper)_httpContextAccessor.HttpContext.Items[BaseController.URLHELPER];
-            string result = url.Link("WorkShiftsSystemGetByCode", new { code = source.Code });
-
+            string result = url.Link("WorkShiftsSystems_GetByIdAsync", new { id = source.Id });
             return result;
         }
     }

@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sameer.Shared.Data;
-using Sgs.Attendance.BusinessLogic;
 using Sgs.Attendance.DataAccess;
 
 namespace Sgs.Attendance.Api
@@ -30,9 +28,6 @@ namespace Sgs.Attendance.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSameerDbDataManagers<AttendanceDb>(_config);
-
-            //AutoMapper
-            services.AddAutoMapper();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -63,12 +58,16 @@ namespace Sgs.Attendance.Api
 
             });
 
+            //AutoMapper
+            services.AddAutoMapper();
+
             services.AddMvc()
                 .AddJsonOptions(opt => 
                 opt.SerializerSettings.ReferenceLoopHandling 
                 = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddXmlDataContractSerializerFormatters()// to add xml serializer
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,9 +75,11 @@ namespace Sgs.Attendance.Api
             , IHostingEnvironment env
             , ILoggerFactory loggerFactory)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
 
             app.UseMvc();

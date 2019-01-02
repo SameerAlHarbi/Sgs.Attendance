@@ -1,0 +1,284 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
+using Sameer.Shared;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Sgs.Attendance.Api.Controllers
+{
+    [ApiController]
+    [Produces("application/json")]
+    [Route("api/[controller]")]
+    public abstract class GeneralApiController<M, VM> : Controller where M : class, ISameerObject, new() where VM : class, new()
+    {
+        protected readonly string _objectTypeName = typeof(M).Name;
+        public const string URLHELPER = "URLHELPER";
+        public const string NOTFOUND_MESSAGE = "Not Found";
+
+        protected readonly IMapper _mapper;
+        protected readonly ILogger _logger;
+        private readonly IDataManager<M> _dataManager;
+
+        public GeneralApiController(IDataManager<M> dataManager,IMapper mapper, ILogger logger)
+        {
+            _dataManager = dataManager;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+            context.HttpContext.Items[URLHELPER] = this.Url;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<List<VM>>> GetAsync()
+        {
+            try
+            {
+                using (_dataManager)
+                {
+                    var allDataList = await _dataManager.GetAllDataList();
+                    return _mapper.Map<List<VM>>(allDataList);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while getting All data !. error message : {ex.Message}");
+            }
+
+            return BadRequest();
+        }
+
+        [HttpGet("{id}", Name = "[controller]_[action]")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<VM>> GetByIdAsync(int id)
+        {
+            try
+            {
+                using (_dataManager)
+                {
+                    var currentData = await _dataManager.GetDataById(id);
+
+                    if (currentData == null)
+                        return BadRequest(NOTFOUND_MESSAGE);
+
+                    return _mapper.Map<VM>(currentData);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while getting All data !. error message : {ex.Message}");
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<VM>> PostAsync(VM model)
+        {
+            try
+            {
+                _logger.LogInformation($"Creating a new {_objectTypeName} !");
+
+                var validationResults = await checkNewData(model);
+                if (validationResults.Any())
+                {
+                    foreach (var vr in validationResults)
+                    {
+                        foreach (var mn in vr.MemberNames)
+                        {
+                            _logger.LogWarning($"validation exception while saving new {_objectTypeName} :member name : {mn} error : {vr.ErrorMessage}");
+                            ModelState.AddModelError(mn, vr.ErrorMessage);
+                        }
+                    }
+                }
+                else
+                {
+                    var newData = _mapper.Map<M>(model);
+
+                    using (_dataManager)
+                    {
+                        var saveResult = await _dataManager.InsertNewDataItem(newData);
+
+                        if (saveResult.Status == RepositoryActionStatus.Created)
+                        {
+                            _logger.LogInformation($"{_objectTypeName} created successfully.");
+
+                            return CreatedAtAction(nameof(GetByIdAsync),
+                                new { id = saveResult.Entity.Id },
+                                _mapper.Map<VM>(newData));
+                        }
+                        else
+                        {
+                            _logger.LogWarning($"Could not save {_objectTypeName} to the database");
+                            ModelState.AddModelError(string.Empty, "Can't save please try again later !");
+                        }
+                    }
+                }
+            }
+            catch (ValidationException ex)
+            {
+                _logger.LogWarning($"validation exception while saving new {_objectTypeName} : {ex.ValidationResult.ErrorMessage}");
+                ModelState.AddModelError("", ex.ValidationResult.ErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Throw exception while save new {_objectTypeName} : {ex}");
+                ModelState.AddModelError(string.Empty, "Save error please try again later !");
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        protected virtual async Task<List<ValidationResult>> checkNewData(VM newData)
+        {
+            return await Task.FromResult(new List<ValidationResult>());
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<VM>> PutAsync(int id, VM model)
+        {
+            try
+            {
+                _logger.LogInformation($"Updating {_objectTypeName} with an id of {id}");
+
+                using (_dataManager)
+                {
+                    var currentData = await _dataManager.GetDataById(id);
+                    if (currentData == null)
+                    {
+                        _logger.LogWarning($"Could not find a {_objectTypeName} of an id of {id}");
+                        return BadRequest(NOTFOUND_MESSAGE);
+                    }
+
+                    var validationResults = await checkUpdateData(currentData, model);
+                    if (validationResults.Any())
+                    {
+                        foreach (var vr in validationResults)
+                        {
+                            foreach (var mn in vr.MemberNames)
+                            {
+                                _logger.LogWarning($"validation exception while updating {_objectTypeName} :member name : {mn} error : {vr.ErrorMessage}");
+                                ModelState.AddModelError(mn, vr.ErrorMessage);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _mapper.Map(model, currentData);
+
+                        var updateResult = await _dataManager.UpdateDataItem(currentData);
+                        if (updateResult.Status == RepositoryActionStatus.Updated)
+                        {
+                            _logger.LogInformation($"{_objectTypeName} updated successfully.");
+                            return _mapper.Map<VM>(currentData);
+                        }
+                        else
+                        {
+                            _logger.LogWarning($"Could not update {_objectTypeName} to the database");
+                            ModelState.AddModelError(string.Empty, "Can't save please try again later !");
+                        }
+                    }
+                }
+
+            }
+            catch (ValidationException ex)
+            {
+                _logger.LogWarning($"validation exception while updating {_objectTypeName} : {ex.ValidationResult.ErrorMessage}");
+                ModelState.AddModelError(string.Empty, ex.ValidationResult.ErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Throw exception while updating {_objectTypeName} : {ex}");
+                ModelState.AddModelError(string.Empty, "Update error please try again later !");
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        protected virtual async Task<List<ValidationResult>> checkUpdateData(M currentData, VM newData)
+        {
+            return await Task.FromResult(new List<ValidationResult>());
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            try
+            {
+                _logger.LogInformation($"Deleting {_objectTypeName} of an id of {id}");
+
+                using (_dataManager)
+                {
+                    var currentData = await _dataManager.GetDataById(id);
+                    if (currentData == null)
+                    {
+                        _logger.LogWarning($"Could not find a {_objectTypeName} of an id of {id}");
+                        return BadRequest(NOTFOUND_MESSAGE);
+                    }
+
+                    var validationResults = await checkDeleteData(currentData);
+                    if (validationResults.Any())
+                    {
+                        foreach (var vr in validationResults)
+                        {
+                            foreach (var mn in vr.MemberNames)
+                            {
+                                _logger.LogWarning($"validation exception while deleting {_objectTypeName} :member name : {mn} error : {vr.ErrorMessage}");
+                                ModelState.AddModelError(mn, vr.ErrorMessage);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var deleteResult = await _dataManager.DeleteDataItem(currentData.Id);
+                        if (deleteResult.Status == RepositoryActionStatus.Deleted)
+                        {
+                            _logger.LogInformation($"{_objectTypeName} deleted successfully.");
+                            return NoContent();
+                        }
+                        else
+                        {
+                            _logger.LogWarning($"Could not delete {_objectTypeName} from the database");
+                            ModelState.AddModelError(string.Empty, "Can't delete please try again later !");
+                        }
+                    }
+                }
+            }
+            catch (ValidationException ex)
+            {
+                _logger.LogWarning($"validation exception while deleting {_objectTypeName} : {ex.ValidationResult.ErrorMessage}");
+                ModelState.AddModelError(string.Empty, ex.ValidationResult.ErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Throw exception while deleting {_objectTypeName} : {ex}");
+                ModelState.AddModelError(string.Empty, "Delete error please try again later !");
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        protected virtual async Task<List<ValidationResult>> checkDeleteData(M currentData)
+        {
+            return await Task.FromResult(new List<ValidationResult>());
+        }
+
+    }
+}

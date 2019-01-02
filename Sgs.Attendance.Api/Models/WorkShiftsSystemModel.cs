@@ -6,6 +6,8 @@ namespace Sgs.Attendance.Api.Models
     {
         public string Url { get; set; }
 
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Code is required !")]
         [StringLength(4, MinimumLength = 4, ErrorMessage = "Code must be of {1} characters !")]
         public string Code { get; set; }
