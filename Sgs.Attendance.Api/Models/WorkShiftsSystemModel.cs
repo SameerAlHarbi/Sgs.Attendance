@@ -2,7 +2,7 @@
 
 namespace Sgs.Attendance.Api.Models
 {
-    public class WorkShiftsSystemModel
+    public class WorkShiftsSystemModel : ISameerApiViewModel
     {
         public string Url { get; set; }
 

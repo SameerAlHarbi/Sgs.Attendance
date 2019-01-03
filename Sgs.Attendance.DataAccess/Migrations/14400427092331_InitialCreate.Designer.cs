@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Sgs.Attendance.DataAccess;
 
 namespace Sgs.Attendance.DataAccess.Migrations
 {
     [DbContext(typeof(AttendanceDb))]
-    [Migration("20190101181418_InitialCreate")]
+    [Migration("14400427092331_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +19,23 @@ namespace Sgs.Attendance.DataAccess.Migrations
                 .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Sgs.Attendance.Model.DepartmentInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.Property<bool>("ManagerExempted");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DepartmentsInfo");
+                });
 
             modelBuilder.Entity("Sgs.Attendance.Model.WorkShiftsSystem", b =>
                 {

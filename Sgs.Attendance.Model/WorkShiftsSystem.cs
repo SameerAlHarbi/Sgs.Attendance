@@ -1,4 +1,5 @@
 ﻿using Sameer.Shared;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sgs.Attendance.Model
@@ -18,5 +19,12 @@ namespace Sgs.Attendance.Model
         public string Name { get; set; }
 
         public string Note { get; set; }
+
+        public List<EmployeeWorkShiftsSystem> EmployeesInfo { get; set; }
+
+        public WorkShiftsSystem()
+        {
+            this.EmployeesInfo = new List<EmployeeWorkShiftsSystem>();
+        }
     }
 }

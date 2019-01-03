@@ -9,6 +9,13 @@ namespace Sgs.Attendance.DataAccess
         {
         }
 
-        DbSet<WorkShiftsSystem> WorkShiftsSystems { get; set; }
+        public DbSet<WorkShiftsSystem> WorkShiftsSystems { get; set; }
+
+        public DbSet<DepartmentInfo> DepartmentsInfo { get; set; }
+
+        public DbSet<EmployeeInfo> EmployeesInfo { get; set; }
+
+        public DbSet<EmployeeWorkShiftsSystem> EmployeesWorkShiftsSystems { get; set; }
+
     }
 }

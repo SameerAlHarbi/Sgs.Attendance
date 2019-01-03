@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sgs.Attendance.DataAccess;
 
 namespace Sgs.Attendance.DataAccess.Migrations
 {
     [DbContext(typeof(AttendanceDb))]
-    partial class AttendanceDbModelSnapshot : ModelSnapshot
+    [Migration("14400427114417_ExemptedResoneLength")]
+    partial class ExemptedResoneLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

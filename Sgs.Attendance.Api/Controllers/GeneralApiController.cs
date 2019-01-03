@@ -16,13 +16,15 @@ namespace Sgs.Attendance.Api.Controllers
     [Route("api/[controller]")]
     public abstract class GeneralApiController<M, VM> : Controller where M : class, ISameerObject, new() where VM : class, new()
     {
-        protected readonly string _objectTypeName = typeof(M).Name;
+        protected virtual string _objectTypeName { get; set; } = typeof(M).Name;
+
         public const string URLHELPER = "URLHELPER";
+        public const string CONTROLLER_NAME = "CONTROLLER_NAME";
         public const string NOTFOUND_MESSAGE = "Not Found";
 
         protected readonly IMapper _mapper;
         protected readonly ILogger _logger;
-        private readonly IDataManager<M> _dataManager;
+        protected readonly IDataManager<M> _dataManager;
 
         public GeneralApiController(IDataManager<M> dataManager,IMapper mapper, ILogger logger)
         {
@@ -35,6 +37,7 @@ namespace Sgs.Attendance.Api.Controllers
         {
             base.OnActionExecuting(context);
             context.HttpContext.Items[URLHELPER] = this.Url;
+            context.HttpContext.Items[CONTROLLER_NAME] = ControllerContext.ActionDescriptor.ControllerName;
         }
 
         [HttpGet]
@@ -112,7 +115,7 @@ namespace Sgs.Attendance.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error while getting All data !. error message : {ex.Message}");
+                _logger.LogError($"Error while getting data !. error message : {ex.Message}");
             }
 
             return BadRequest();

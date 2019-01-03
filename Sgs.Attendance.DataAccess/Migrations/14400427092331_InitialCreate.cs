@@ -8,6 +8,20 @@ namespace Sgs.Attendance.DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "DepartmentsInfo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Code = table.Column<string>(maxLength: 20, nullable: false),
+                    ManagerExempted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DepartmentsInfo", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WorkShiftsSystems",
                 columns: table => new
                 {
@@ -25,6 +39,9 @@ namespace Sgs.Attendance.DataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "DepartmentsInfo");
+
             migrationBuilder.DropTable(
                 name: "WorkShiftsSystems");
         }
