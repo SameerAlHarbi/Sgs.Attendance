@@ -29,9 +29,10 @@ namespace Sgs.Attendance.Model
         public string LocationEnglish { get; set; }
 
         [Required(ErrorMessage = "{0} is required !")]
+        [MaxLength(20, ErrorMessage = "{0} length can't be more than {1} charachters !")]
         public string Model { get; set; }
 
-        [MaxLength(20, ErrorMessage = "{0} length can't be nore than {1} charachters !")]
+        [MaxLength(20, ErrorMessage = "{0} length can't be more than {1} charachters !")]
         public string RefrenceNumber { get; set; }
 
         public string Note { get; set; }

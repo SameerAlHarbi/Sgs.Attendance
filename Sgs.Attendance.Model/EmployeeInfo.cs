@@ -22,6 +22,16 @@ namespace Sgs.Attendance.Model
 
         public string Note { get; set; }
 
+        public List<EmployeeWorkShiftsSystem> WorkShiftsSystems { get; set; }
+
+        public List<EmployeeWorkShiftsCalendar> WorkShiftsCalendars { get; set; }
+
+        public EmployeeInfo()
+        {
+            this.WorkShiftsSystems = new List<EmployeeWorkShiftsSystem>();
+            this.WorkShiftsCalendars = new List<EmployeeWorkShiftsCalendar>();
+        }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var result = new List<ValidationResult>();

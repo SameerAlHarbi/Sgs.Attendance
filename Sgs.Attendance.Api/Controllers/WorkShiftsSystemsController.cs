@@ -10,8 +10,8 @@ namespace Sgs.Attendance.Api.Controllers
     [EnableCors("Any")]
     public class WorkShiftsSystemsController : GeneralApiController<WorkShiftsSystem, WorkShiftsSystemModel>
     {
-        public WorkShiftsSystemsController(IDataManager<WorkShiftsSystem> dataManager, IMapper mapper, ILogger<WorkShiftsSystemsController> logger)
-            : base(dataManager, mapper, logger)
+        public WorkShiftsSystemsController(IDataManager<WorkShiftsSystem> dataManager,
+            IMapper mapper, ILogger<WorkShiftsSystemsController> logger) : base(dataManager, mapper, logger)
         {
         }
     }

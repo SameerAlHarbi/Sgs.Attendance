@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sgs.Attendance.Api.Models
 {
@@ -8,13 +9,17 @@ namespace Sgs.Attendance.Api.Models
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Code is required !")]
-        [StringLength(4, MinimumLength = 4, ErrorMessage = "Code must be of {1} characters !")]
+        [Required(ErrorMessage = "{0} is required !")]
+        [StringLength(4, MinimumLength = 4, ErrorMessage = "{0} must be of {1} characters !")]
         public string Code { get; set; }
 
-        [Required(ErrorMessage = "Name is required !")]
-        [StringLength(100, MinimumLength = 4, ErrorMessage = "Name must be between {2} And {1} characters long !")]
+        [Required(ErrorMessage = "{0} is required !")]
+        [StringLength(100, MinimumLength = 4, ErrorMessage = "{0} must be between {2} And {1} characters long !")]
         public string Name { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public AttendanceProof AttendanceProof { get; set; }
 
         public string Note { get; set; }
     }

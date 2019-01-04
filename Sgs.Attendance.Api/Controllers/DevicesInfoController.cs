@@ -9,7 +9,7 @@ namespace Sgs.Attendance.Api.Controllers
     public class DevicesInfoController : GeneralApiController<DeviceInfo, DeviceInfoModel>
     {
         public DevicesInfoController(DevicesInfoManager dataManager,
-            IMapper mapper, ILogger<GeneralApiController<DeviceInfo, DeviceInfoModel>> logger) : base(dataManager, mapper, logger)
+            IMapper mapper, ILogger<DevicesInfoController> logger) : base(dataManager, mapper, logger)
         {
         }
     }

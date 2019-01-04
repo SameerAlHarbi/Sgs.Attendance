@@ -53,6 +53,11 @@ namespace Sgs.Attendance.Model
                 results.Add(new ValidationResult("Calendar start date can't be after end date !", new string[] { "StartDate", "EndDate" }));
             }
 
+            if(IsVacationCalendar && string.IsNullOrWhiteSpace(VacationDescription))
+            {
+                results.Add(new ValidationResult($"{nameof(VacationDescription)} is required !", new string[] { nameof(VacationDescription), nameof(IsVacationCalendar) }));
+            }
+
             return results;
         }
 

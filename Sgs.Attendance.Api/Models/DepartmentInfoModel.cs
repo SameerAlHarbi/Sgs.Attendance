@@ -8,7 +8,7 @@ namespace Sgs.Attendance.Api.Models
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Code Required !")]
+        [Required(ErrorMessage = "Code is Required !")]
         [StringLength(20, MinimumLength = 4, ErrorMessage = "Please Code must be between {2} And {1} Charachters !")]
         public string Code { get; set; }
 

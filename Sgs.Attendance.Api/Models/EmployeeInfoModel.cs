@@ -12,7 +12,7 @@ namespace Sgs.Attendance.Api.Models
 
         public bool Exempted { get; set; }
 
-        public DateTime ExemptedDate { get; set; }
+        public DateTime? ExemptedDate { get; set; }
 
         public string ExemptedResone { get; set; }
 
