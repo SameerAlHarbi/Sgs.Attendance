@@ -14,7 +14,10 @@ namespace Sgs.Attendance.Api.Models
         }
     }
 
-    public class WorkShiftsMappingProfile : AttendanceMappingProfile<WorkShiftsSystem,WorkShiftsSystemModel>
+    public class DeviceInfoMappingProfile : AttendanceMappingProfile<DeviceInfo, DeviceInfoModel>
+    { }
+
+    public class WorkShiftsSystemMappingProfile : AttendanceMappingProfile<WorkShiftsSystem,WorkShiftsSystemModel>
     {}
 
     public class DepartmentsInfoMappingProfile : AttendanceMappingProfile<DepartmentInfo, DepartmentInfoModel>

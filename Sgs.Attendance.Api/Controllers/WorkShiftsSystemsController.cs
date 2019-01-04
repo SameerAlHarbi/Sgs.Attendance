@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sameer.Shared;
 using Sgs.Attendance.Api.Models;
@@ -11,7 +10,7 @@ namespace Sgs.Attendance.Api.Controllers
     [EnableCors("Any")]
     public class WorkShiftsSystemsController : GeneralApiController<WorkShiftsSystem, WorkShiftsSystemModel>
     {
-        public WorkShiftsSystemsController(IDataManager<WorkShiftsSystem> dataManager, IMapper mapper, ILogger<WorkShiftsSystemsController> logger) 
+        public WorkShiftsSystemsController(IDataManager<WorkShiftsSystem> dataManager, IMapper mapper, ILogger<WorkShiftsSystemsController> logger)
             : base(dataManager, mapper, logger)
         {
         }

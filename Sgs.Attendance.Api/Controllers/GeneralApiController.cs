@@ -26,7 +26,7 @@ namespace Sgs.Attendance.Api.Controllers
         protected readonly ILogger _logger;
         protected readonly IDataManager<M> _dataManager;
 
-        public GeneralApiController(IDataManager<M> dataManager,IMapper mapper, ILogger logger)
+        public GeneralApiController(IDataManager<M> dataManager,IMapper mapper, ILogger<GeneralApiController<M,VM>> logger)
         {
             _dataManager = dataManager;
             _mapper = mapper;
