@@ -1,6 +1,6 @@
 ﻿namespace Sgs.Attendance.Model
 {
-    public class WorkShiftsCalendarCycle
+    public class WorkShiftsCalendarCycle : WorkShiftCycle
     {
         public int WorkShiftsCalendarId { get; set; }
 
