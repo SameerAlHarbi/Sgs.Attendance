@@ -33,7 +33,7 @@ namespace Sgs.Attendance.DataAccess.Migrations
                     IpAddress = table.Column<string>(maxLength: 20, nullable: false),
                     LocationArabic = table.Column<string>(nullable: false),
                     LocationEnglish = table.Column<string>(nullable: false),
-                    Model = table.Column<string>(nullable: false),
+                    Model = table.Column<string>(maxLength: 20, nullable: false),
                     RefrenceNumber = table.Column<string>(maxLength: 20, nullable: true),
                     Note = table.Column<string>(nullable: true)
                 },

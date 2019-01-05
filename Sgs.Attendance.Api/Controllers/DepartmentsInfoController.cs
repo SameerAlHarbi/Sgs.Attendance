@@ -33,11 +33,24 @@ namespace Sgs.Attendance.Api.Controllers
             {
                 var allErpDepartmentsModels = _mapper.Map<List<DepartmentInfoModel>>(allErpDepartments);
 
+                foreach (var item in allErpDepartmentsModels)
+                {
+                    item.Code = item.Id.ToString();
+                    item.Id = 0;
+                }
+
                 foreach (var dataItem in resultData)
                 {
                     var erpDeptModel = allErpDepartmentsModels.FirstOrDefault(d => d.Code == dataItem.Code);
+
+                    erpDeptModel.Id = dataItem.Id;
+                    erpDeptModel.ManagerExempted = dataItem.ManagerExempted;
+
+
                     _mapper.Map(dataItem, erpDeptModel);
                 }
+
+                return allErpDepartmentsModels;
             }
 
             return  resultData;

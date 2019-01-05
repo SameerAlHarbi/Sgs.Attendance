@@ -7,7 +7,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sameer.Shared.Data;
+using Sgs.Attendance.Api.Services;
 using Sgs.Attendance.DataAccess;
+using Sgs.Attendance.ERP;
+using System.Net.Http.Headers;
 
 namespace Sgs.Attendance.Api
 {
@@ -30,6 +33,13 @@ namespace Sgs.Attendance.Api
             services.AddSameerDbDataManagers<AttendanceDb>(_config);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddHttpClient<IErpManager, ErpManager>(client =>
+            {
+                client.BaseAddress = new System.Uri(@"http://172.16.11.44:810/HrPortalApi/api/Hr/portal/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType: "application/json"));
+            });
 
             //CORS
             services.AddCors(cfg =>

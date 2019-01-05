@@ -10,7 +10,7 @@ using Sgs.Attendance.DataAccess;
 namespace Sgs.Attendance.DataAccess.Migrations
 {
     [DbContext(typeof(AttendanceDb))]
-    [Migration("20190104221043_InitialCreate")]
+    [Migration("20190105221845_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,7 +59,8 @@ namespace Sgs.Attendance.DataAccess.Migrations
                         .IsRequired();
 
                     b.Property<string>("Model")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(20);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -293,7 +294,7 @@ namespace Sgs.Attendance.DataAccess.Migrations
             modelBuilder.Entity("Sgs.Attendance.Model.EmployeeWorkShiftsCalendar", b =>
                 {
                     b.HasOne("Sgs.Attendance.Model.EmployeeInfo", "EmployeeInfo")
-                        .WithMany()
+                        .WithMany("WorkShiftsCalendars")
                         .HasForeignKey("EmployeeInfoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -306,7 +307,7 @@ namespace Sgs.Attendance.DataAccess.Migrations
             modelBuilder.Entity("Sgs.Attendance.Model.EmployeeWorkShiftsSystem", b =>
                 {
                     b.HasOne("Sgs.Attendance.Model.EmployeeInfo", "EmployeeInfo")
-                        .WithMany()
+                        .WithMany("WorkShiftsSystems")
                         .HasForeignKey("EmployeeInfoId")
                         .OnDelete(DeleteBehavior.Cascade);
 

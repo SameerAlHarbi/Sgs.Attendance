@@ -57,7 +57,8 @@ namespace Sgs.Attendance.DataAccess.Migrations
                         .IsRequired();
 
                     b.Property<string>("Model")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(20);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -291,7 +292,7 @@ namespace Sgs.Attendance.DataAccess.Migrations
             modelBuilder.Entity("Sgs.Attendance.Model.EmployeeWorkShiftsCalendar", b =>
                 {
                     b.HasOne("Sgs.Attendance.Model.EmployeeInfo", "EmployeeInfo")
-                        .WithMany()
+                        .WithMany("WorkShiftsCalendars")
                         .HasForeignKey("EmployeeInfoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -304,7 +305,7 @@ namespace Sgs.Attendance.DataAccess.Migrations
             modelBuilder.Entity("Sgs.Attendance.Model.EmployeeWorkShiftsSystem", b =>
                 {
                     b.HasOne("Sgs.Attendance.Model.EmployeeInfo", "EmployeeInfo")
-                        .WithMany()
+                        .WithMany("WorkShiftsSystems")
                         .HasForeignKey("EmployeeInfoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
