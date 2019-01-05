@@ -40,17 +40,22 @@ namespace Sgs.Attendance.Api.Controllers
             context.HttpContext.Items[CONTROLLER_NAME] = ControllerContext.ActionDescriptor.ControllerName;
         }
 
+        protected virtual async Task<List<VM>> fillMissingData(List<VM> resultData)
+        {
+            return await Task.FromResult(resultData);
+        }
+
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<List<VM>>> GetAsync()
+        public virtual async Task<ActionResult<List<VM>>> GetAsync()
         {
             try
             {
                 using (_dataManager)
                 {
                     var allDataList = await _dataManager.GetAllDataList();
-                    return _mapper.Map<List<VM>>(allDataList);
+                    return await fillMissingData(_mapper.Map<List<VM>>(allDataList));
                 }
             }
             catch (Exception ex)

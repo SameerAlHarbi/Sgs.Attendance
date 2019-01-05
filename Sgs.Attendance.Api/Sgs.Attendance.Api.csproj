@@ -14,7 +14,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Sgs.Attendance.BusinessLogic\Sgs.Attendance.BusinessLogic.csproj" />
     <ProjectReference Include="..\Sgs.Attendance.DataAccess\Sgs.Attendance.DataAccess.csproj" />
+    <ProjectReference Include="..\Sgs.Attendance.ERP\Sgs.Attendance.ERP.csproj" />
     <ProjectReference Include="..\Sgs.Attendance.Model\Sgs.Attendance.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

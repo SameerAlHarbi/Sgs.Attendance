@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Sameer.Shared;
+using Sgs.Attendance.ERP;
 using Sgs.Attendance.Model;
 
 namespace Sgs.Attendance.Api.Models
@@ -18,6 +19,9 @@ namespace Sgs.Attendance.Api.Models
     { }
 
     public class DepartmentsInfoMappingProfile : AttendanceMappingProfile<DepartmentInfo, DepartmentInfoModel>
+    { }
+
+    public class ErpDepartmentsInfoMappingProfile : AttendanceMappingProfile<ErpDepartmentInfo, DepartmentInfoModel>
     { }
 
     public class EmployeeInfoMappingProfile : AttendanceMappingProfile<EmployeeInfo, EmployeeInfoModel>

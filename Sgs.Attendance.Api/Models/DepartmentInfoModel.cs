@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sgs.Attendance.Api.Models
 {
@@ -13,5 +14,17 @@ namespace Sgs.Attendance.Api.Models
         public string Code { get; set; }
 
         public bool ManagerExempted { get; set; }
+
+        public string Name { get; set; }
+
+        public string ParentCode { get; set; }
+
+        public string ParentName { get; set; }
+
+        public int? ManagerId { get; set; }
+
+        public string ManagerName { get; set; }
+
+        public string ManagerPosition { get; set; }
     }
 }

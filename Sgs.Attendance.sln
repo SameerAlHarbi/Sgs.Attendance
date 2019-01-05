@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgs.Attendance.Model", "Sgs.Attendance.Model\Sgs.Attendance.Model.csproj", "{8EB599A4-B53F-4A62-8D1E-2A0FF32F510D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgs.Attendance.Model", "Sgs.Attendance.Model\Sgs.Attendance.Model.csproj", "{8EB599A4-B53F-4A62-8D1E-2A0FF32F510D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgs.Attendance.BusinessLogic", "Sgs.Attendance.BusinessLogic\Sgs.Attendance.BusinessLogic.csproj", "{F75F10D9-86B1-4017-B0C6-3DF47DBF5055}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgs.Attendance.BusinessLogic", "Sgs.Attendance.BusinessLogic\Sgs.Attendance.BusinessLogic.csproj", "{F75F10D9-86B1-4017-B0C6-3DF47DBF5055}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgs.Attendance.DataAccess", "Sgs.Attendance.DataAccess\Sgs.Attendance.DataAccess.csproj", "{2C061BF8-164E-41DD-B64A-50F8331C1BCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgs.Attendance.DataAccess", "Sgs.Attendance.DataAccess\Sgs.Attendance.DataAccess.csproj", "{2C061BF8-164E-41DD-B64A-50F8331C1BCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgs.Attendance.Api", "Sgs.Attendance.Api\Sgs.Attendance.Api.csproj", "{C423F325-BBF1-4B81-BB55-BD41BF10590F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgs.Attendance.Api", "Sgs.Attendance.Api\Sgs.Attendance.Api.csproj", "{C423F325-BBF1-4B81-BB55-BD41BF10590F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgs.Attendance.Mvc", "Sgs.Attendance.Mvc\Sgs.Attendance.Mvc.csproj", "{90A6F90A-4FF9-4CFD-B180-45F2BF2C58C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgs.Attendance.Mvc", "Sgs.Attendance.Mvc\Sgs.Attendance.Mvc.csproj", "{90A6F90A-4FF9-4CFD-B180-45F2BF2C58C6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{DDE1B629-893E-4A2D-9E64-FAF1E8C6197A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgs.Attendance.ERP", "Sgs.Attendance.ERP\Sgs.Attendance.ERP.csproj", "{EC80F2B5-F1DC-4B42-A144-33BD4A19163B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{90A6F90A-4FF9-4CFD-B180-45F2BF2C58C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90A6F90A-4FF9-4CFD-B180-45F2BF2C58C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90A6F90A-4FF9-4CFD-B180-45F2BF2C58C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC80F2B5-F1DC-4B42-A144-33BD4A19163B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC80F2B5-F1DC-4B42-A144-33BD4A19163B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC80F2B5-F1DC-4B42-A144-33BD4A19163B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC80F2B5-F1DC-4B42-A144-33BD4A19163B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +55,7 @@ Global
 		{8EB599A4-B53F-4A62-8D1E-2A0FF32F510D} = {DDE1B629-893E-4A2D-9E64-FAF1E8C6197A}
 		{F75F10D9-86B1-4017-B0C6-3DF47DBF5055} = {DDE1B629-893E-4A2D-9E64-FAF1E8C6197A}
 		{2C061BF8-164E-41DD-B64A-50F8331C1BCB} = {DDE1B629-893E-4A2D-9E64-FAF1E8C6197A}
+		{EC80F2B5-F1DC-4B42-A144-33BD4A19163B} = {DDE1B629-893E-4A2D-9E64-FAF1E8C6197A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9105DD4B-46EC-4E4E-A2CF-161C5568A06A}
