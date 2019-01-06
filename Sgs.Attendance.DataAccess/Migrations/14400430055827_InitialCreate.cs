@@ -15,6 +15,7 @@ namespace Sgs.Attendance.DataAccess.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(maxLength: 20, nullable: false),
+                    ManagerAttendanceProof = table.Column<int>(nullable: false),
                     ManagerExempted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>

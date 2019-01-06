@@ -12,7 +12,7 @@ namespace Sgs.Attendance.Model
         [StringLength(20,MinimumLength =4,ErrorMessage ="Please Code must be between {2} And {1} Charachters !")]
         public string Code { get; set; }
 
-        public bool ManagerExempted { get; set; }
+        public AttendanceProof ManagerAttendanceProof { get; set; }
 
     }
 }

@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sgs.Attendance.Api.Models;
 using Sgs.Attendance.BusinessLogic;
 using Sgs.Attendance.ERP;
 using Sgs.Attendance.Model;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Sgs.Attendance.Api.Controllers
 {
@@ -27,33 +25,42 @@ namespace Sgs.Attendance.Api.Controllers
 
         protected override async Task<List<DepartmentInfoModel>> fillMissingData(List<DepartmentInfoModel> resultData)
         {
-            var allErpDepartments = await _erpManager.GetAllErpDepartmentsInfo();
-
-            if(allErpDepartments != null && allErpDepartments.Count() > 0)
+            try
             {
-                var allErpDepartmentsModels = _mapper.Map<List<DepartmentInfoModel>>(allErpDepartments);
+                this._logger.LogInformation("Getting ERP departments data ...");
 
-                foreach (var item in allErpDepartmentsModels)
+                var allErpDepartments = await _erpManager.GetAllErpDepartmentsInfo();
+
+                if (allErpDepartments != null && allErpDepartments.Count() > 0)
                 {
-                    item.Code = item.Id.ToString();
-                    item.Id = 0;
+                    var allErpDepartmentsModels = _mapper.Map<List<DepartmentInfoModel>>(allErpDepartments);
+
+                    foreach (var item in allErpDepartmentsModels)
+                    {
+                        item.Url = string.Empty;
+                    }
+
+                    foreach (var dataItem in resultData)
+                    {
+                        var erpDeptModel = allErpDepartmentsModels.FirstOrDefault(d => d.Code == dataItem.Code);
+
+                        erpDeptModel.Id = dataItem.Id;
+                        erpDeptModel.Url = dataItem.Url;
+                        erpDeptModel.ManagerAttendanceProof = dataItem.ManagerAttendanceProof;
+
+                        _mapper.Map(dataItem, erpDeptModel);
+                    }
+
+                    return allErpDepartmentsModels;
                 }
 
-                foreach (var dataItem in resultData)
-                {
-                    var erpDeptModel = allErpDepartmentsModels.FirstOrDefault(d => d.Code == dataItem.Code);
-
-                    erpDeptModel.Id = dataItem.Id;
-                    erpDeptModel.ManagerExempted = dataItem.ManagerExempted;
-
-
-                    _mapper.Map(dataItem, erpDeptModel);
-                }
-
-                return allErpDepartmentsModels;
+                return resultData;
             }
-
-            return  resultData;
+            catch (System.Exception)
+            {
+                this._logger.LogError("Error while getting ERP departments data ...");
+                throw;
+            }
         }
 
     }

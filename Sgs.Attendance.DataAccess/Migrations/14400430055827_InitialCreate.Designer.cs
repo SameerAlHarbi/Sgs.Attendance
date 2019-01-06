@@ -10,7 +10,7 @@ using Sgs.Attendance.DataAccess;
 namespace Sgs.Attendance.DataAccess.Migrations
 {
     [DbContext(typeof(AttendanceDb))]
-    [Migration("20190105221845_InitialCreate")]
+    [Migration("14400430055827_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,8 @@ namespace Sgs.Attendance.DataAccess.Migrations
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(20);
+
+                    b.Property<int>("ManagerAttendanceProof");
 
                     b.Property<bool>("ManagerExempted");
 

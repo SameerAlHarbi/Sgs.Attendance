@@ -7,6 +7,7 @@ namespace Sgs.Attendance.Api.Controllers
 {
     [Produces("application/json")]
     [ApiController]
+    [Route("api/[controller]")]
     public class BaseController : Controller
     {
         public const string URLHELPER = "URLHELPER";

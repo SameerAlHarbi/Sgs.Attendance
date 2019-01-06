@@ -41,6 +41,10 @@ namespace Sgs.Attendance.Api
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType: "application/json"));
             });
 
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<ISmsSender, SmsSender>();
+
             //CORS
             services.AddCors(cfg =>
             {
@@ -85,13 +89,17 @@ namespace Sgs.Attendance.Api
             , IHostingEnvironment env
             , ILoggerFactory loggerFactory)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-
+            else
+            {
+                app.UseExceptionHandler("/api/Errors/500");
+                app.UseStatusCodePagesWithReExecute("/api/Errors/{0}");
+            }
+            
             app.UseMvc();
         }
     }
