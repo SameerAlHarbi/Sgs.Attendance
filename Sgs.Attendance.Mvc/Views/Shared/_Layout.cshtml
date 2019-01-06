@@ -19,9 +19,9 @@
     <link href="~/node_modules/@@fortawesome/fontawesome-free-webfonts/css/fa-regular.css" rel="stylesheet" />
     <link href="~/node_modules/@@fortawesome/fontawesome-free-webfonts/css/fa-brands.css" rel="stylesheet" />
     <link href="~/node_modules/toastr/build/toastr.css" rel="stylesheet" />
-    <link href="~/Style/MainStyle.css" rel="stylesheet" />
-    <link href="~/Style/headerStyle.css" rel="stylesheet" />
-    <link href="~/Style/ClockStyle.css" rel="stylesheet" />
+    <link href="~/Styles/main.css" rel="stylesheet" />
+    <link href="~/Styles/header.css" rel="stylesheet" />
+    <link href="~/Styles/footer.css" rel="stylesheet" />
 
     <title>@ViewBag.Title</title>
 
@@ -30,13 +30,19 @@
 </head>
 <body>
 
-    <partial name="_Header" />
+    <div class="main-Container">
+        <header>
+            <partial name="_Header" />
+        </header>
 
-    <div class="container" style="margin-top:30px;">
-        @RenderBody()
+        <main class=".mn">
+            @RenderBody()
+        </main>
+
+        <footer>
+            <partial name="_Footer" />
+        </footer>
     </div>
-
-    <partial name="_Footer" />
 
     <!-- Script files -->
     <script src="~/node_modules/jquery/dist/jquery.js"></script>

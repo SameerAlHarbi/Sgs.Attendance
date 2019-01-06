@@ -1,0 +1,22 @@
+﻿@import url("animations.css");
+
+html, body {
+    box-sizing:border-box;
+    height: 100%;
+    background-image: url('../Images/circles-light.png');
+}
+
+.main-Container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+main {
+    flex: 1;
+    margin:30px;
+}
+
+.toast-top-right {
+    margin-top: 140px;
+}

@@ -26,8 +26,6 @@ namespace Sgs.Attendance.Mvc
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
-
             services.AddSingleton<IAppInfo, AppInfo>();
 
             services.AddAutoMapper();
@@ -40,19 +38,15 @@ namespace Sgs.Attendance.Mvc
             , IHostingEnvironment env
             , ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(_config.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
-            //Catch all exception that happens in any middeleware and showed the developer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseBrowserLink();
                 app.UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/500");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
 
             app.UseStaticFiles();
@@ -64,11 +58,6 @@ namespace Sgs.Attendance.Mvc
 
         private void configureRoute(IRouteBuilder routeBuilder)
         {
-            //TODO: Delete this Users route :)
-            routeBuilder.MapRoute(name: "users",
-                   template: "Users/{action=Index}/{username?}",
-                   defaults: new { controller = "Users" });
-
             routeBuilder.MapRoute("Default",
                 "{controller=Home}/{action=Index}/{id?}");
         }

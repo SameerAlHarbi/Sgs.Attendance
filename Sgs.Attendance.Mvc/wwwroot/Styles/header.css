@@ -1,8 +1,4 @@
-﻿.header {
-    display:flex;
-    flex-direction:column;
-    box-shadow: 0px 0px 10px #808080;
-}
+﻿@import url("clock.css");
 
 .header-top {
     height: 130px;
@@ -24,7 +20,7 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box !important;
-    z-index:100;
+    z-index: 100;
 }
 
 .header-top > .header-clock {

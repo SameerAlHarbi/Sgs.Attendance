@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgs.Attendance.Mvc", "Sgs.A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{DDE1B629-893E-4A2D-9E64-FAF1E8C6197A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgs.Attendance.ERP", "Sgs.Attendance.ERP\Sgs.Attendance.ERP.csproj", "{EC80F2B5-F1DC-4B42-A144-33BD4A19163B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgs.Attendance.ERP", "Sgs.Attendance.ERP\Sgs.Attendance.ERP.csproj", "{EC80F2B5-F1DC-4B42-A144-33BD4A19163B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

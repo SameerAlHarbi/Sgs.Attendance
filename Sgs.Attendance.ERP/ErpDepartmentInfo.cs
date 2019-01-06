@@ -1,4 +1,5 @@
 ﻿using Sameer.Shared;
+using System.Collections.Generic;
 
 namespace Sgs.Attendance.ERP
 {
@@ -21,5 +22,8 @@ namespace Sgs.Attendance.ERP
         public string ManagerName { get; set; }
 
         public string ManagerPosition { get; set; }
+
+        public List<ErpDepartmentInfo> ChildDepartmentsList { get; set; }
+
     }
 }

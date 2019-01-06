@@ -36,7 +36,7 @@ namespace Sgs.Attendance.Api
 
             services.AddHttpClient<IErpManager, ErpManager>(client =>
             {
-                client.BaseAddress = new System.Uri(@"http://172.16.11.44:810/HrPortalApi/api/Hr/portal/");
+                client.BaseAddress = new System.Uri(@"http://localhost:8257/api/Hr/portal/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType: "application/json"));
             });

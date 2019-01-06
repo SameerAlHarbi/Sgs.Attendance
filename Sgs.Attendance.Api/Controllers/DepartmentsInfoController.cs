@@ -27,7 +27,7 @@ namespace Sgs.Attendance.Api.Controllers
         {
             try
             {
-                this._logger.LogInformation("Getting ERP departments data ...");
+                this._logger.LogInformation("Getting all ERP departments data ...");
 
                 var allErpDepartments = await _erpManager.GetAllErpDepartmentsInfo();
 
@@ -48,7 +48,6 @@ namespace Sgs.Attendance.Api.Controllers
                         erpDeptModel.Url = dataItem.Url;
                         erpDeptModel.ManagerAttendanceProof = dataItem.ManagerAttendanceProof;
 
-                        _mapper.Map(dataItem, erpDeptModel);
                     }
 
                     return allErpDepartmentsModels;
