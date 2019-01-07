@@ -10,6 +10,7 @@ using Sameer.Shared.Data;
 using Sgs.Attendance.Api.Services;
 using Sgs.Attendance.DataAccess;
 using Sgs.Attendance.ERP;
+using System;
 using System.Net.Http.Headers;
 
 namespace Sgs.Attendance.Api
@@ -75,6 +76,12 @@ namespace Sgs.Attendance.Api
             //AutoMapper
             services.AddAutoMapper();
 
+            //Caching
+            services.AddResponseCaching(options =>
+            {
+                options.MaximumBodySize = 1024;
+            });
+
             services.AddMvc()
                 .AddJsonOptions(opt => 
                 opt.SerializerSettings.ReferenceLoopHandling 
@@ -99,7 +106,25 @@ namespace Sgs.Attendance.Api
                 app.UseExceptionHandler("/api/Errors/500");
                 app.UseStatusCodePagesWithReExecute("/api/Errors/{0}");
             }
-            
+
+            app.UseResponseCaching();
+
+            app.Use(async (context, next) =>
+            {
+                // For GetTypedHeaders, add: using Microsoft.AspNetCore.Http;
+                context.Response.GetTypedHeaders().CacheControl =
+                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromSeconds(10)
+                    };
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+                    new string[] { "Accept-Encoding" };
+
+                await next();
+            });
+
+
             app.UseMvc();
         }
     }

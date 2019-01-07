@@ -42,6 +42,7 @@ namespace Sgs.Attendance.Api.Controllers
 
                     foreach (var dataItem in resultData)
                     {
+
                         var erpDeptModel = allErpDepartmentsModels.FirstOrDefault(d => d.Code == dataItem.Code);
 
                         erpDeptModel.Id = dataItem.Id;
@@ -55,12 +56,11 @@ namespace Sgs.Attendance.Api.Controllers
 
                 return resultData;
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                this._logger.LogError("Error while getting ERP departments data ...");
+                _logger.LogError("Error while getting ERP departments data ...");
                 throw;
             }
         }
-
     }
 }

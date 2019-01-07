@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Sameer.Shared;
 using Sameer.Shared.Helpers.Mvc;
+using Sgs.Attendance.Mvc.Models;
 using Sgs.Attendance.Mvc.Services;
+using System.Net.Http.Headers;
 
 namespace Sgs.Attendance.Mvc
 {
@@ -26,6 +29,15 @@ namespace Sgs.Attendance.Mvc
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddHttpClient(typeof(IDataManager<>), typeof(GeneralApiManager<>));
+
+            services.AddHttpClient<IDataManager<DepartmentModel>,GeneralApiDataManager<DepartmentModel>>(client =>
+            {
+                client.BaseAddress = new System.Uri(@"http://localhost:8088/api/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType: "application/json"));
+            });
+
             services.AddSingleton<IAppInfo, AppInfo>();
 
             services.AddAutoMapper();

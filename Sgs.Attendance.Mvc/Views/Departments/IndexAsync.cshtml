@@ -1,0 +1,19 @@
+﻿@model List<DepartmentViewModel>
+
+@{
+    ViewData["Title"] = "IndexAsync";
+}
+
+<h1>IndexAsync</h1>
+
+@foreach (var item in Model)
+{
+    <h2>@item.Code</h2>
+    <h2>@item.Name</h2>
+    foreach (var child in item.ChildDepartmentsList)
+    {
+        <h2>@child.Code</h2>
+        <h2>@child.Name</h2>
+    }
+}
+
