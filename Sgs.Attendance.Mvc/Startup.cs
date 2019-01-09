@@ -29,11 +29,17 @@ namespace Sgs.Attendance.Mvc
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddHttpClient(typeof(IDataManager<>), typeof(GeneralApiManager<>));
 
             services.AddHttpClient<IDataManager<DepartmentModel>,GeneralApiDataManager<DepartmentModel>>(client =>
             {
-                client.BaseAddress = new System.Uri(@"http://localhost:8088/api/");
+                client.BaseAddress = new System.Uri(@"http://localhost:8088/api/departmentsinfo");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType: "application/json"));
+            });
+
+            services.AddHttpClient<IDataManager<DeviceInfoModel>, GeneralApiDataManager<DeviceInfoModel>>(client =>
+            {
+                client.BaseAddress = new System.Uri(@"http://localhost:8088/api/devicesinfo");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType: "application/json"));
             });
@@ -43,6 +49,8 @@ namespace Sgs.Attendance.Mvc
             services.AddAutoMapper();
 
             services.AddMvc();
+
+            services.AddKendo();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

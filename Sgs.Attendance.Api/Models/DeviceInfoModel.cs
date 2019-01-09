@@ -20,6 +20,8 @@
 
         public string RefrenceNumber { get; set; }
 
+        public bool Connected { get; set; }
+
         public string Note { get; set; }
     }
 }

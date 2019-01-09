@@ -19,9 +19,65 @@
     <link href="~/node_modules/@@fortawesome/fontawesome-free-webfonts/css/fa-regular.css" rel="stylesheet" />
     <link href="~/node_modules/@@fortawesome/fontawesome-free-webfonts/css/fa-brands.css" rel="stylesheet" />
     <link href="~/node_modules/toastr/build/toastr.css" rel="stylesheet" />
+
+
+    <environment include="Development">
+
+        <link rel="stylesheet" href="~/Styles/Kendo/kendo.common-bootstrap.min.css" />
+        @*<link rel="stylesheet" href="~/Styles/Kendo/kendo.blueopal.min.css" />*@
+        <link rel="stylesheet" href="~/Styles/kendo.custom.css" />
+        <link rel="stylesheet" href="~/Styles/Kendo/kendo.rtl.min.css" />
+    </environment>
+
+    <environment exclude="Development">
+
+        <link rel="stylesheet"
+              href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.common-nova.min.css"
+              asp-fallback-href="~/Styles/Kendo/kendo.common-nova.min.css"
+              asp-fallback-test-class="k-common-test-class"
+              asp-fallback-test-property="opacity" asp-fallback-test-value="0" />
+
+        <link rel="stylesheet"
+              href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.nova.min.css"
+              asp-fallback-href="~/Styles/Kendo/kendo.nova.min.css"
+              asp-fallback-test-class="k-theme-test-class"
+              asp-fallback-test-property="opacity" asp-fallback-test-value="0" />
+
+    </environment>
+
     <link href="~/Styles/main.css" rel="stylesheet" />
     <link href="~/Styles/header.css" rel="stylesheet" />
     <link href="~/Styles/footer.css" rel="stylesheet" />
+
+    <environment include="Development">
+
+        <script src="~/node_modules/jquery/dist/jquery.js"></script>
+
+        @* Place Kendo UI scripts after jQuery *@
+        <script src="~/Scripts/Kendo/kendo.all.min.js"></script>
+        <script src="~/Scripts/Kendo/kendo.aspnetmvc.min.js"></script>
+
+    </environment>
+
+    <environment exclude="Development">
+
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/node_modules/jquery/dist/jquery.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+         </script>
+
+        <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.all.min.js"
+                asp-fallback-src="~/Scripts/Kendo/kendo.all.min.js"
+                asp-fallback-test="window.kendo">
+        </script>
+        <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.aspnetmvc.min.js"
+                asp-fallback-src="~/Scripts/Kendo/kendo.aspnetmvc.min.js"
+                asp-fallback-test="kendo.data.transports['aspnetmvc-ajax']">
+        </script>
+
+    </environment>
 
     <title>@ViewBag.Title</title>
 
@@ -35,6 +91,8 @@
             <partial name="_Header" />
         </header>
 
+
+        <partial name="_Navbar" />
         <main>
             @RenderBody()
         </main>
@@ -45,7 +103,6 @@
     </div>
 
     <!-- Script files -->
-    <script src="~/node_modules/jquery/dist/jquery.js"></script>
     <script src="~/node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/node_modules/toastr/build/toastr.min.js"></script>
     <script src="~/Scripts/toastr-options.js"></script>

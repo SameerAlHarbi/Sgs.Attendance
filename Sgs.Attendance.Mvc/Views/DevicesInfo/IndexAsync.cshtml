@@ -1,0 +1,22 @@
+﻿@model List<DeviceInfoViewModel>
+
+@{
+    ViewData["Title"] = "أجهزة البصمة";
+}
+
+<h1>IndexAsync</h1>
+
+@foreach (var item in Model)
+{
+    <p>@item.Model</p>
+    <p>@item.IpAddress</p>
+}
+
+no data
+
+    <div class="k-rtl">
+        @(Html.Kendo().DatePicker()
+                       .Name("datepicker")
+    )
+    </div>
+

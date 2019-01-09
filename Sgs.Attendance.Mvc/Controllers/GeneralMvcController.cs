@@ -186,9 +186,9 @@ namespace Sgs.Attendance.Mvc.Controllers
             }
         }
 
-        protected virtual async Task<M> createObject()
+        protected virtual async Task<VM> createObject()
         {
-            return await Task.FromResult(new M());
+            return await Task.FromResult(new VM());
         }
 
         [HttpGet]
@@ -196,6 +196,8 @@ namespace Sgs.Attendance.Mvc.Controllers
         {
             try
             {
+                ViewData["StatusMessage"] = this.StatusMessage;
+                this.StatusMessage = "Cancel Save";
                 return View(await createObject());
             }
             catch (Exception)
@@ -238,6 +240,7 @@ namespace Sgs.Attendance.Mvc.Controllers
                             if (saveResult.Status == RepositoryActionStatus.Created)
                             {
                                 _logger.LogInformation(creatingNewDataSuccessfullMessage);
+                                this.StatusMessage = "Save Succeeded";
                                 return createSucceededResult(saveResult.Entity);
                             }
                             else
@@ -261,6 +264,8 @@ namespace Sgs.Attendance.Mvc.Controllers
                 }
             }
 
+            this.StatusMessage = "Cancel Save";
+            ViewData["StatusMessage"] = "Error - " + ModelState.FirstOrDefault().Value.Errors.FirstOrDefault().ErrorMessage;
             return View(model);
         }
 

@@ -40,9 +40,15 @@ namespace Sgs.Attendance.Api.Controllers
             context.HttpContext.Items[CONTROLLER_NAME] = ControllerContext.ActionDescriptor.ControllerName;
         }
 
-        protected virtual async Task<List<VM>> fillMissingData(List<VM> resultData)
+        protected virtual async Task<List<VM>> fillItemsListMissingData(List<VM> resultData)
         {
             return await Task.FromResult(resultData);
+        }
+
+        protected virtual async Task<VM> fillItemMissingData(VM dataItem)
+        {
+            var resultDataItem = await fillItemsListMissingData(new List<VM>() { dataItem });
+            return resultDataItem.First();
         }
 
         [HttpGet]
@@ -55,7 +61,7 @@ namespace Sgs.Attendance.Api.Controllers
                 using (_dataManager)
                 {
                     var allDataList = await _dataManager.GetAllDataList();
-                    return await fillMissingData(_mapper.Map<List<VM>>(allDataList));
+                    return await fillItemsListMissingData(_mapper.Map<List<VM>>(allDataList));
                 }
             }
             catch (Exception ex)
@@ -69,15 +75,15 @@ namespace Sgs.Attendance.Api.Controllers
         [HttpGet("paged")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<List<VM>>> GetPagedAsync(string sort = "id",int pageNumber=1,int pageSize=100)
+        public virtual async Task<ActionResult<List<VM>>> GetPagedAsync(string sort = "id",int pageNumber=1,int pageSize=100)
         {
             try
             {
                 using (_dataManager)
                 {
-                    var pagedDataList = await _dataManager.GetPagedDataList(pageNumber,pageSize,sort);
+                    PagedDataResult<M> pagedDataList = await _dataManager.GetPagedDataList(pageNumber,pageSize,sort);
                     AddPaginationHeader(pagedDataList);
-                    return _mapper.Map<List<VM>>(pagedDataList.DataList);
+                    return await fillItemsListMissingData(_mapper.Map<List<VM>>(pagedDataList.DataList));
                 }
             }
             catch (Exception ex)
@@ -104,7 +110,7 @@ namespace Sgs.Attendance.Api.Controllers
         [HttpGet("{id}", Name = "[controller]_[action]")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<VM>> GetByIdAsync(int id)
+        public virtual async Task<ActionResult<VM>> GetByIdAsync(int id)
         {
             try
             {
@@ -115,7 +121,7 @@ namespace Sgs.Attendance.Api.Controllers
                     if (currentData == null)
                         return BadRequest(NOTFOUND_MESSAGE);
 
-                    return _mapper.Map<VM>(currentData);
+                    return await fillItemMissingData(_mapper.Map<VM>(currentData));
                 }
             }
             catch (Exception ex)
@@ -129,7 +135,7 @@ namespace Sgs.Attendance.Api.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<VM>> PostAsync(VM model)
+        public virtual async Task<ActionResult<VM>> PostAsync(VM model)
         {
             try
             {
@@ -193,7 +199,7 @@ namespace Sgs.Attendance.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<VM>> PutAsync(int id, VM model)
+        public virtual async Task<ActionResult<VM>> PutAsync(int id, VM model)
         {
             try
             {

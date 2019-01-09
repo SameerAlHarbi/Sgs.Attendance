@@ -76,11 +76,11 @@ namespace Sgs.Attendance.Api
             //AutoMapper
             services.AddAutoMapper();
 
-            //Caching
-            services.AddResponseCaching(options =>
-            {
-                options.MaximumBodySize = 1024;
-            });
+            //TODO:Cashing support !
+            //services.AddResponseCaching(options =>
+            //{
+            //    options.MaximumBodySize = 1024;
+            //});
 
             services.AddMvc()
                 .AddJsonOptions(opt => 
@@ -88,7 +88,6 @@ namespace Sgs.Attendance.Api
                 = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddXmlDataContractSerializerFormatters()// to add xml serializer
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,22 +106,23 @@ namespace Sgs.Attendance.Api
                 app.UseStatusCodePagesWithReExecute("/api/Errors/{0}");
             }
 
-            app.UseResponseCaching();
+            //TODO:Cashing support !
+            //app.UseResponseCaching();
 
-            app.Use(async (context, next) =>
-            {
-                // For GetTypedHeaders, add: using Microsoft.AspNetCore.Http;
-                context.Response.GetTypedHeaders().CacheControl =
-                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
-                    {
-                        Public = true,
-                        MaxAge = TimeSpan.FromSeconds(10)
-                    };
-                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
-                    new string[] { "Accept-Encoding" };
+            //app.Use(async (context, next) =>
+            //{
+            //    // For GetTypedHeaders, add: using Microsoft.AspNetCore.Http;
+            //    context.Response.GetTypedHeaders().CacheControl =
+            //        new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+            //        {
+            //            Public = true,
+            //            MaxAge = TimeSpan.FromSeconds(10)
+            //        };
+            //    context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+            //        new string[] { "Accept-Encoding" };
 
-                await next();
-            });
+            //    await next();
+            //});
 
 
             app.UseMvc();

@@ -47,7 +47,7 @@ namespace Sgs.Attendance.Api.Services
 
         public async Task<IEnumerable<ErpDepartmentInfo>> GetAllErpDepartmentsInfoByParentCode(string parentErpDepartmentByCode, bool directOnly = false)
         {
-            return new List<ErpDepartmentInfo>();
+            return await Task.FromResult( new List<ErpDepartmentInfo>());
         }
 
         public async Task<ErpDepartmentInfo> GetErpDepartmentByCode(string erpDepartmentByCode)

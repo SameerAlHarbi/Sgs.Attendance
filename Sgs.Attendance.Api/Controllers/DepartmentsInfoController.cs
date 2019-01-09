@@ -23,7 +23,7 @@ namespace Sgs.Attendance.Api.Controllers
             _erpManager = erpManager;
         }
 
-        protected override async Task<List<DepartmentInfoModel>> fillMissingData(List<DepartmentInfoModel> resultData)
+        protected override async Task<List<DepartmentInfoModel>> fillItemsListMissingData(List<DepartmentInfoModel> resultData)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace Sgs.Attendance.Api.Controllers
 
                 return resultData;
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 _logger.LogError("Error while getting ERP departments data ...");
                 throw;

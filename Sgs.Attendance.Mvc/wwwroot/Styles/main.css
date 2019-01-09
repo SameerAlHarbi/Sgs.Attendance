@@ -14,9 +14,16 @@ html, body {
 
 main {
     flex: 1;
-    margin:30px;
+    margin: 0px 30px 30px 30px;
+    direction: rtl;
+    text-align: right;
+    background: rgba(255, 255, 255,0.5);
+    border-radius: 10px;
+    border-color: gray;
+    padding: 40px;
 }
 
-.toast-top-right {
+.toast-top-left {
     margin-top: 140px;
+    text-align: right;
 }

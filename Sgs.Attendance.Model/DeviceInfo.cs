@@ -14,12 +14,12 @@ namespace Sgs.Attendance.Model
 
         [Required(ErrorMessage = "{0} is required !")]
         [Unique(ErrorMessage = "{0} is already exist !")]
-        [MaxLength(20, ErrorMessage = "{0} length must be of {1} charachters !")]
+        [MaxLength(20, ErrorMessage = "{0} length can't be more than {1} charachters !")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "{0} is required !")]
         [Unique(ErrorMessage = "{0} is already exist !")]
-        [MaxLength(20, ErrorMessage = "{0} length must be of {1} charachters !")]
+        [MaxLength(20, ErrorMessage = "{0} length can't be more than {1} charachters !")]
         public string IpAddress { get; set; }
 
         [Required(ErrorMessage = "{0} is required !")]
