@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sameer.Shared;
@@ -163,6 +165,22 @@ namespace Sgs.Attendance.Mvc.Controllers
             {
                 throw;
             }
+        }
+
+        [HttpGet]
+        public virtual async Task<IActionResult> GetAllDataJson()
+        {
+            var allDataList = await _dataManager.GetAllDataList();
+            var resultDataModelList = await fillMissingData(_mapper.Map<List<VM>>(allDataList));
+            return Json(resultDataModelList);
+        }
+
+        [HttpGet]
+        public virtual async Task<IActionResult> GetAllDataJsonForKendo([DataSourceRequest] DataSourceRequest request)
+        {
+            var allDataList = await _dataManager.GetAllDataList();
+            var resultDataModelList = await fillMissingData(_mapper.Map<List<VM>>(allDataList));
+            return Json(resultDataModelList.ToDataSourceResult(request));
         }
 
         [HttpGet]

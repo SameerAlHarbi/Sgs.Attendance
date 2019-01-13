@@ -44,6 +44,13 @@ namespace Sgs.Attendance.Mvc
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType: "application/json"));
             });
 
+            services.AddHttpClient<IDataManager<WorkShiftsSystemModel>, GeneralApiDataManager<WorkShiftsSystemModel>>(client =>
+            {
+                client.BaseAddress = new System.Uri(@"http://localhost:8088/api/WorkShiftsSystems");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType: "application/json"));
+            });
+
             services.AddSingleton<IAppInfo, AppInfo>();
 
             services.AddAutoMapper();

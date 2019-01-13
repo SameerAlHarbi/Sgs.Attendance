@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Work Shifts Systems</h1>
+
+
+<kendo-grid name="allData" height="550">
+    <datasource type="DataSourceTagHelperType.Ajax" server-operation="false" page-size="5">
+        <transport>
+            <read url="WorkShiftsSystems/GetAllDataJson" />
+        </transport>
+    </datasource>
+    <columns>
+        <column field="Code"></column>
+        <column field="Name"></column>
+        <column field="StartDate"></column>
+    </columns>
+</kendo-grid>
+
