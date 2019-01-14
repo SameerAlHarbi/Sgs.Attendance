@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Sameer.Shared;
 using Sgs.Attendance.Mvc.Models;
@@ -12,5 +14,12 @@ namespace Sgs.Attendance.Mvc.Controllers
             : base(dataManager, mapper, logger)
         {
         }
+
+        protected override Task<WorkShiftsSystemViewModel> createObject()
+        {
+            return  Task.FromResult(new WorkShiftsSystemViewModel { StartDate=DateTime.Today });
+        }
+
+        protected override string createNewTitleMessage => "إضافة نظام ورديات جديد";
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using Sameer.Shared;
 using Sameer.Shared.Helpers.Mvc;
 using Sgs.Attendance.Mvc.Models;
@@ -55,7 +56,10 @@ namespace Sgs.Attendance.Mvc
 
             services.AddAutoMapper();
 
-            services.AddMvc();
+            services
+                .AddMvc()
+                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             services.AddKendo();
         }

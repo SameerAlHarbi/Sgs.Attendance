@@ -23,6 +23,14 @@ namespace Sgs.Attendance.Mvc.Controllers
 
         #region Data Messages
 
+        protected virtual string createNewTitleMessage
+        {
+            get
+            {
+                return $"Create a new {_objectTypeName}";
+            }
+        }
+
         protected virtual string creatingNewDataMessage
         {
             get
@@ -175,7 +183,7 @@ namespace Sgs.Attendance.Mvc.Controllers
             return Json(resultDataModelList);
         }
 
-        [HttpGet]
+        
         public virtual async Task<IActionResult> GetAllDataJsonForKendo([DataSourceRequest] DataSourceRequest request)
         {
             var allDataList = await _dataManager.GetAllDataList();
@@ -216,6 +224,7 @@ namespace Sgs.Attendance.Mvc.Controllers
             {
                 ViewData["StatusMessage"] = this.StatusMessage;
                 this.StatusMessage = "Cancel Save";
+                ViewBag.Title = createNewTitleMessage;
                 return View(await createObject());
             }
             catch (Exception)
