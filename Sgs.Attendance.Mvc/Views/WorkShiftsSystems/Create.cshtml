@@ -10,41 +10,32 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="Code" class="control-label">الرمز</label>
-                <input asp-for="Code" style="max-width:200px"  class="form-control" />
+                <input asp-for="Code" style="max-width:200px" class="form-control" />
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
-        </div>
-        <div class="col">
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+                <kendo-datepicker  class="form-control" for="StartDate" format="yyyy-MM-dd" title="تاريخ بداية نظام الورديات"></kendo-datepicker>
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
-        </div>
-        <div class="col">
             <div class="form-group">
                 <label asp-for="AttendanceProof" class="control-label"></label>
                 <input asp-for="AttendanceProof" class="form-control" />
                 <span asp-validation-for="AttendanceProof" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <textarea asp-for="Note"  rows="4" class="form-control" ></textarea>
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="form-group">
-            <label asp-for="Note" class="control-label"></label>
-            <input asp-for="Note" class="form-control" />
-            <span asp-validation-for="Note" class="text-danger"></span>
-        </div>
-    </div>
+
     <div class="row">
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-primary" />
@@ -52,6 +43,6 @@
     </div>
 </form>
 
-@section scripts{ 
+@section scripts{
     <partial name="_ValidationScripts" />
 }

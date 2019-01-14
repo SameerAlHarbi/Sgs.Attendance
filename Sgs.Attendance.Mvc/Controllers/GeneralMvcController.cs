@@ -292,7 +292,7 @@ namespace Sgs.Attendance.Mvc.Controllers
             }
 
             this.StatusMessage = "Cancel Save";
-            ViewData["StatusMessage"] = "Error - " + ModelState.FirstOrDefault().Value.Errors.FirstOrDefault().ErrorMessage;
+            ViewData["StatusMessage"] = "Error - " + ModelState.Where(m => m.Value.Errors.Count() > 0).FirstOrDefault().Value.Errors.FirstOrDefault().ErrorMessage;
             return View(model);
         }
 

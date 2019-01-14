@@ -17,7 +17,7 @@ namespace Sgs.Attendance.Mvc.Controllers
 
         protected override Task<WorkShiftsSystemViewModel> createObject()
         {
-            return  Task.FromResult(new WorkShiftsSystemViewModel { StartDate=DateTime.Today });
+            return  Task.FromResult(new WorkShiftsSystemViewModel { StartDate=DateTime.Today.AddDays(-1) });
         }
 
         protected override string createNewTitleMessage => "إضافة نظام ورديات جديد";
