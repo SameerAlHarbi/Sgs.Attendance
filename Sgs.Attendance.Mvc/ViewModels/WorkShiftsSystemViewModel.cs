@@ -3,6 +3,7 @@ using Sgs.Attendance.Mvc.Services;
 using System;
 using System.ComponentModel.DataAnnotations;
 using Sameer.Shared;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Sgs.Attendance.Mvc.ViewModels
 {
@@ -12,8 +13,9 @@ namespace Sgs.Attendance.Mvc.ViewModels
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "{0} is required !")]
-        [StringLength(4, MinimumLength = 4, ErrorMessage = "{0} must be of {1} characters !")]
+        [Required(ErrorMessage = "رمز نظام الورديات مطلوب !")]
+        [StringLength(4, MinimumLength = 4, ErrorMessage = "رمز نظام الورديات من {1} خانات فقط !")]
+        [Remote(action: "VerifyCode", controller: "WorkShiftsSystems", AdditionalFields = nameof(Id))]
         [Display(Name ="الرمز")]
         public string Code { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sameer.Shared;
 using Sgs.Attendance.Mvc.Models;
@@ -21,5 +22,25 @@ namespace Sgs.Attendance.Mvc.Controllers
         }
 
         protected override string createNewTitleMessage => "إضافة نظام ورديات جديد";
+
+
+
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> VerifyCode(string code, int? id = null)
+        {
+            try
+            {
+                var currentWorkShiftsSystem = await ((WorkShiftsSystemsManager)_dataManager).GetSingleItemAsync(s => s.Code.Trim().Normalize() == code.Trim().Normalize());
+                if (currentWorkShiftsSystem != null && currentWorkShiftsSystem.Id != id)
+                {
+                    return Json($"عفواً رمز نظام الورديات مسجل مسبقاً !");
+                }
+                return Json(true);
+            }
+            catch (Exception)
+            {
+                return Json("خطأ أثناء التحقق ...!!");
+            }
+        }
     }
 }
