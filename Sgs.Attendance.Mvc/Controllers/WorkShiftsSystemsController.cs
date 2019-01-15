@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sameer.Shared;
 using Sgs.Attendance.Mvc.Models;
+using Sgs.Attendance.Mvc.Services;
 using Sgs.Attendance.Mvc.ViewModels;
 
 namespace Sgs.Attendance.Mvc.Controllers
@@ -30,8 +32,8 @@ namespace Sgs.Attendance.Mvc.Controllers
         {
             try
             {
-                var currentWorkShiftsSystem = await ((WorkShiftsSystemsManager)_dataManager).GetSingleItemAsync(s => s.Code.Trim().Normalize() == code.Trim().Normalize());
-                if (currentWorkShiftsSystem != null && currentWorkShiftsSystem.Id != id)
+                var dataByCode = await ((GeneralApiDataManager<WorkShiftsSystemModel>)_dataManager).GetAllDataList("code",code);
+                if (dataByCode != null && dataByCode.Any() && dataByCode.FirstOrDefault().Id != id)
                 {
                     return Json($"عفواً رمز نظام الورديات مسجل مسبقاً !");
                 }

@@ -33,21 +33,21 @@ namespace Sgs.Attendance.Mvc
 
             services.AddHttpClient<IDataManager<DepartmentModel>,GeneralApiDataManager<DepartmentModel>>(client =>
             {
-                client.BaseAddress = new System.Uri(@"http://localhost:8088/api/departmentsinfo");
+                client.BaseAddress = new System.Uri(@"http://localhost:8088/api/departmentsinfo/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType: "application/json"));
             });
 
             services.AddHttpClient<IDataManager<DeviceInfoModel>, GeneralApiDataManager<DeviceInfoModel>>(client =>
             {
-                client.BaseAddress = new System.Uri(@"http://localhost:8088/api/devicesinfo");
+                client.BaseAddress = new System.Uri(@"http://localhost:8088/api/devicesinfo/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType: "application/json"));
             });
 
             services.AddHttpClient<IDataManager<WorkShiftsSystemModel>, GeneralApiDataManager<WorkShiftsSystemModel>>(client =>
             {
-                client.BaseAddress = new System.Uri(@"http://localhost:8088/api/WorkShiftsSystems");
+                client.BaseAddress = new System.Uri(@"http://localhost:8088/api/WorkShiftsSystems/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType: "application/json"));
             });
