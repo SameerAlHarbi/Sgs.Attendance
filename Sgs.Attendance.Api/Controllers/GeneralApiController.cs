@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Sgs.Attendance.Api.Controllers
@@ -62,6 +63,38 @@ namespace Sgs.Attendance.Api.Controllers
                 {
                     var allDataList = await _dataManager.GetAllDataList();
                     return await fillItemsListMissingData(_mapper.Map<List<VM>>(allDataList));
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while getting All data !. error message : {ex.Message}");
+            }
+
+            return BadRequest();
+        }
+
+        [HttpGet("GetBy")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public virtual async Task<ActionResult<List<VM>>> GetByAsync(string fieldName, string fieldValue)
+        {
+            try
+            {
+                using (_dataManager)
+                {
+                    var parameter = Expression.Parameter(typeof(M), "x");
+                    var member = Expression.Property(parameter, fieldName);
+                    var left = Expression.Call(member, typeof(string).GetMethod("Trim", Type.EmptyTypes));
+                    var left2 = Expression.Call(left, typeof(string).GetMethod("ToLower", Type.EmptyTypes));
+                    var constant = Expression.Constant(fieldValue);
+                    var right = Expression.Call(constant, typeof(string).GetMethod("Trim", Type.EmptyTypes));
+                    var right2 = Expression.Call(right, typeof(string).GetMethod("ToLower", Type.EmptyTypes));
+                    var body = Expression.Equal(left2, right2);
+                    var finalExpression = Expression.Lambda<Func<M, bool>>(body, parameter);
+
+                    //TODO:Update idata manager to accept expression
+                    var allDataList = await ((WorkShiftsSystemsManager)_dataManager).GetAllAsNoTrackingListAsync(finalExpression);
+                    return await fillItemsListMissingData(_mapper.Map<List<WorkShiftsSystemModel>>(allDataList));
                 }
             }
             catch (Exception ex)

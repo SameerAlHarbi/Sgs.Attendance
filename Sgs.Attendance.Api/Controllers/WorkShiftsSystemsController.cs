@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Sameer.Shared;
 using Sgs.Attendance.Api.Models;
 using Sgs.Attendance.BusinessLogic;
 using Sgs.Attendance.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+
 
 namespace Sgs.Attendance.Api.Controllers
 {
@@ -18,27 +19,6 @@ namespace Sgs.Attendance.Api.Controllers
         public WorkShiftsSystemsController(WorkShiftsSystemsManager dataManager,
             IMapper mapper, ILogger<WorkShiftsSystemsController> logger) : base(dataManager, mapper, logger)
         {
-        }
-
-        [HttpGet("GetBy")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public virtual async Task<ActionResult<List<WorkShiftsSystemModel>>> GetByAsync(string fieldName,string fieldValue)
-        {
-            try
-            {
-                using (_dataManager)
-                {
-                    var allDataList = await ((WorkShiftsSystemsManager)_dataManager).GetAllAsNoTrackingListAsync(c => c.Code.Trim().ToLower() == code.Trim().ToLower());
-                    return await fillItemsListMissingData(_mapper.Map<List<WorkShiftsSystemModel>>(allDataList));
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error while getting All data !. error message : {ex.Message}");
-            }
-
-            return BadRequest();
         }
 
         [HttpGet("{code}", Name = "[controller]_[action]")]

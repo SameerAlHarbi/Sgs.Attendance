@@ -22,7 +22,7 @@ namespace Sgs.Attendance.Mvc.Services
         {
             try
             {
-                HttpResponseMessage response = await _client.GetAsync($"GetBy?{fieldName}={fieldValue}");
+                HttpResponseMessage response = await _client.GetAsync($"GetBy?fieldName={fieldName}&fieldValue={fieldValue}");
 
                 if (response.IsSuccessStatusCode)
                 {
