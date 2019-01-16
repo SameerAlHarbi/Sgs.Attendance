@@ -183,7 +183,25 @@ namespace Sgs.Attendance.Mvc.Controllers
             return Json(resultDataModelList);
         }
 
-        
+        //protected async Task<IActionResult> VerifyData(string fieldName,string fieldValue, int? id = null
+        //    ,string errorMessage=null,string exceptionMessage=null)
+        //{
+        //    try
+        //    {
+        //        var dataByFieldName = await _dataManager.GetAllDataList(fieldName, fieldValue);
+        //        if (dataByFieldName != null && dataByFieldName.Any() && dataByFieldName.FirstOrDefault().Id != id)
+        //        {
+        //            return Json(errorMessage);
+        //        }
+        //        return Json(true);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Json(exceptionMessage);
+        //    }
+        //}
+
+
         public virtual async Task<IActionResult> GetAllDataJsonForKendo([DataSourceRequest] DataSourceRequest request)
         {
             var allDataList = await _dataManager.GetAllDataList();
@@ -275,14 +293,13 @@ namespace Sgs.Attendance.Mvc.Controllers
                                 _logger.LogWarning(creatingNewDataFailMessage);
                                 ModelState.AddModelError(string.Empty, saveErrorMessage);
                             }
-
                         }
                     }
                 }
                 catch (ValidationException ex)
                 {
                     _logger.LogWarning($"validation exception while saving new {_objectTypeName} : {ex.ValidationResult.ErrorMessage}");
-                    ModelState.AddModelError("", ex.ValidationResult.ErrorMessage);
+                    ModelState.AddModelError(ex.ValidationResult.MemberNames.FirstOrDefault()??"", ex.ValidationResult.ErrorMessage);
                 }
                 catch (Exception ex)
                 {

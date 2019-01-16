@@ -67,7 +67,7 @@ namespace Sgs.Attendance.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error while getting All data !. error message : {ex.Message}");
+                _logger.LogError($"Error while getting all data !. error message : {ex.Message}");
             }
 
             return BadRequest();
@@ -93,8 +93,8 @@ namespace Sgs.Attendance.Api.Controllers
                     var finalExpression = Expression.Lambda<Func<M, bool>>(body, parameter);
 
                     //TODO:Update idata manager to accept expression
-                    var allDataList = await ((WorkShiftsSystemsManager)_dataManager).GetAllAsNoTrackingListAsync(finalExpression);
-                    return await fillItemsListMissingData(_mapper.Map<List<WorkShiftsSystemModel>>(allDataList));
+                    var allDataList = await _dataManager.GetAllDataList();
+                    return await fillItemsListMissingData(_mapper.Map<List<VM>>(allDataList.Where(finalExpression.Compile())));
                 }
             }
             catch (Exception ex)
@@ -152,7 +152,7 @@ namespace Sgs.Attendance.Api.Controllers
                     var currentData = await _dataManager.GetDataById(id);
 
                     if (currentData == null)
-                        return BadRequest(NOTFOUND_MESSAGE);
+                        return BadRequest(new { message = NOTFOUND_MESSAGE });
 
                     return await fillItemMissingData(_mapper.Map<VM>(currentData));
                 }
@@ -218,10 +218,10 @@ namespace Sgs.Attendance.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Throw exception while save new {_objectTypeName} : {ex}");
-                ModelState.AddModelError(string.Empty, "Save error please try again later !");
+                return BadRequest();
             }
 
-            return BadRequest(ModelState);
+            return BadRequest(new { ModelState = new { Member ="code" ,MemberError="test error"} });
         }
 
         protected virtual async Task<List<ValidationResult>> checkNewData(VM newData)
@@ -276,7 +276,6 @@ namespace Sgs.Attendance.Api.Controllers
                         }
                     }
                 }
-
             }
             catch (ValidationException ex)
             {
@@ -286,7 +285,7 @@ namespace Sgs.Attendance.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Throw exception while updating {_objectTypeName} : {ex}");
-                ModelState.AddModelError(string.Empty, "Update error please try again later !");
+                return BadRequest();
             }
 
             return BadRequest(ModelState);
@@ -351,7 +350,7 @@ namespace Sgs.Attendance.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Throw exception while deleting {_objectTypeName} : {ex}");
-                ModelState.AddModelError(string.Empty, "Delete error please try again later !");
+                return BadRequest();
             }
 
             return BadRequest(ModelState);

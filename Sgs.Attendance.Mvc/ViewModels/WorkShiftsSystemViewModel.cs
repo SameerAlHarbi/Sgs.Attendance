@@ -19,8 +19,9 @@ namespace Sgs.Attendance.Mvc.ViewModels
         [Display(Name ="الرمز")]
         public string Code { get; set; }
 
-        [Required(ErrorMessage = "{0} is required !")]
-        [StringLength(100, MinimumLength = 4, ErrorMessage = "{0} must be between {2} And {1} characters long !")]
+        [Required(ErrorMessage = "اسم نظام الورديات مطلوب !")]
+        [StringLength(100, MinimumLength = 4, ErrorMessage = "اسم نظام الورديات يجب ان يكون بين {2} الى {1} ")]
+        [Remote(action: "VerifyName", controller: "WorkShiftsSystems", AdditionalFields = nameof(Id))]
         [Display(Name = "الاسم")]
         public string Name { get; set; }
 

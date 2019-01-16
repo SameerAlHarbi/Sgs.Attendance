@@ -44,5 +44,23 @@ namespace Sgs.Attendance.Mvc.Controllers
                 return Json("خطأ أثناء التحقق ...!!");
             }
         }
+
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> VerifyName(string name, int? id = null)
+        {
+            try
+            {
+                var dataByCode = await ((GeneralApiDataManager<WorkShiftsSystemModel>)_dataManager).GetAllDataList("name", name);
+                if (dataByCode != null && dataByCode.Any() && dataByCode.FirstOrDefault().Id != id)
+                {
+                    return Json($"عفواً اسم نظام الورديات مسجل مسبقاً !");
+                }
+                return Json(true);
+            }
+            catch (Exception)
+            {
+                return Json("خطأ أثناء التحقق ...!!");
+            }
+        }
     }
 }

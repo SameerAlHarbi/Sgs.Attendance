@@ -7,6 +7,7 @@ using Sgs.Attendance.BusinessLogic;
 using Sgs.Attendance.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace Sgs.Attendance.Api.Controllers
         {
         }
 
-        [HttpGet("{code}", Name = "[controller]_[action]")]
+        [HttpGet("ByCode/{code}", Name = "[controller]_[action]")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public virtual async Task<ActionResult<WorkShiftsSystemModel>> GetByCodeAsync(string code)
@@ -44,6 +45,11 @@ namespace Sgs.Attendance.Api.Controllers
             }
 
             return BadRequest();
+        }
+
+        protected override async Task<List<ValidationResult>> checkNewData(WorkShiftsSystemModel newData)
+        {
+            return await Task.FromResult(new List<ValidationResult> { new ValidationResult("test error model", new string[] { "Code" }) });
         }
     }
 }
