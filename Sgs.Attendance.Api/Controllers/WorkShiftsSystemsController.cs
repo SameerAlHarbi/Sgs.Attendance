@@ -47,9 +47,5 @@ namespace Sgs.Attendance.Api.Controllers
             return BadRequest();
         }
 
-        protected override async Task<List<ValidationResult>> checkNewData(WorkShiftsSystemModel newData)
-        {
-            return await Task.FromResult(new List<ValidationResult> { new ValidationResult("test error model", new string[] { "Code" }) });
-        }
     }
 }

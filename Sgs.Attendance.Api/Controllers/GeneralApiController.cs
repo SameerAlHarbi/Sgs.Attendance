@@ -152,7 +152,7 @@ namespace Sgs.Attendance.Api.Controllers
                     var currentData = await _dataManager.GetDataById(id);
 
                     if (currentData == null)
-                        return BadRequest(new { message = NOTFOUND_MESSAGE });
+                        return BadRequest(new { title = NOTFOUND_MESSAGE });
 
                     return await fillItemMissingData(_mapper.Map<VM>(currentData));
                 }
@@ -213,7 +213,7 @@ namespace Sgs.Attendance.Api.Controllers
             catch (ValidationException ex)
             {
                 _logger.LogWarning($"validation exception while saving new {_objectTypeName} : {ex.ValidationResult.ErrorMessage}");
-                ModelState.AddModelError("", ex.ValidationResult.ErrorMessage);
+                ModelState.AddModelError(ex.ValidationResult.MemberNames.FirstOrDefault()??"", ex.ValidationResult.ErrorMessage);
             }
             catch (Exception ex)
             {
@@ -221,7 +221,7 @@ namespace Sgs.Attendance.Api.Controllers
                 return BadRequest();
             }
 
-            return BadRequest(new { ModelState = new { Member ="code" ,MemberError="test error"} });
+            return BadRequest();
         }
 
         protected virtual async Task<List<ValidationResult>> checkNewData(VM newData)
@@ -244,7 +244,7 @@ namespace Sgs.Attendance.Api.Controllers
                     if (currentData == null)
                     {
                         _logger.LogWarning($"Could not find a {_objectTypeName} of an id of {id}");
-                        return BadRequest(NOTFOUND_MESSAGE);
+                        return BadRequest(new { title = NOTFOUND_MESSAGE });
                     }
 
                     var validationResults = await checkUpdateData(currentData, model);
@@ -280,7 +280,7 @@ namespace Sgs.Attendance.Api.Controllers
             catch (ValidationException ex)
             {
                 _logger.LogWarning($"validation exception while updating {_objectTypeName} : {ex.ValidationResult.ErrorMessage}");
-                ModelState.AddModelError(string.Empty, ex.ValidationResult.ErrorMessage);
+                ModelState.AddModelError(ex.ValidationResult.MemberNames.FirstOrDefault() ?? string.Empty, ex.ValidationResult.ErrorMessage);
             }
             catch (Exception ex)
             {
@@ -311,7 +311,7 @@ namespace Sgs.Attendance.Api.Controllers
                     if (currentData == null)
                     {
                         _logger.LogWarning($"Could not find a {_objectTypeName} of an id of {id}");
-                        return BadRequest(NOTFOUND_MESSAGE);
+                        return BadRequest(new { title = NOTFOUND_MESSAGE });
                     }
 
                     var validationResults = await checkDeleteData(currentData);
@@ -345,7 +345,7 @@ namespace Sgs.Attendance.Api.Controllers
             catch (ValidationException ex)
             {
                 _logger.LogWarning($"validation exception while deleting {_objectTypeName} : {ex.ValidationResult.ErrorMessage}");
-                ModelState.AddModelError(string.Empty, ex.ValidationResult.ErrorMessage);
+                ModelState.AddModelError(ex.ValidationResult.MemberNames.FirstOrDefault() ?? string.Empty, ex.ValidationResult.ErrorMessage);
             }
             catch (Exception ex)
             {
