@@ -235,6 +235,11 @@ namespace Sgs.Attendance.Mvc.Controllers
             return await Task.FromResult(new VM());
         }
 
+        protected virtual IActionResult createView(VM newData)
+        {
+            return View("Create", newData);
+        }
+
         [HttpGet]
         public virtual async Task<IActionResult> Create()
         {
@@ -243,7 +248,7 @@ namespace Sgs.Attendance.Mvc.Controllers
                 ViewData["StatusMessage"] = this.StatusMessage;
                 this.StatusMessage = "Cancel Save";
                 ViewBag.Title = createNewTitleMessage;
-                return View(await createObject());
+                return createView(await createObject());
             }
             catch (Exception)
             {
@@ -310,7 +315,7 @@ namespace Sgs.Attendance.Mvc.Controllers
 
             this.StatusMessage = "Cancel Save";
             ViewData["StatusMessage"] = "Error - " + ModelState.Where(m => m.Value.Errors.Count() > 0).FirstOrDefault().Value.Errors.FirstOrDefault().ErrorMessage;
-            return View(model);
+            return createView(model);
         }
 
         protected virtual async Task<List<ValidationResult>> checkNewData(VM newData)
@@ -321,6 +326,11 @@ namespace Sgs.Attendance.Mvc.Controllers
         protected virtual IActionResult createSucceededResult(M newData)
         {
             return RedirectToAction(nameof(Details), new { id = newData.Id });
+        }
+
+        protected virtual IActionResult editView(VM currentData)
+        {
+            return View("Edit", currentData);
         }
 
         [HttpGet]
@@ -335,7 +345,7 @@ namespace Sgs.Attendance.Mvc.Controllers
                     return NotFound();
                 }
 
-                return View(_mapper.Map<VM>(currentData));
+                return editView(_mapper.Map<VM>(currentData));
             }
             catch (Exception)
             {
@@ -404,7 +414,7 @@ namespace Sgs.Attendance.Mvc.Controllers
                 }
             }
 
-            return View(model);
+            return editView(model);
         }
 
         protected virtual async Task<List<ValidationResult>> checkEditData(M currentData,VM newData)
@@ -417,8 +427,13 @@ namespace Sgs.Attendance.Mvc.Controllers
             return RedirectToAction(nameof(Details), new { id = currentData.Id });
         }
 
+        protected virtual IActionResult deleteView(VM currentData)
+        {
+            return View("Delete", currentData);
+        }
+
         [HttpGet]
-        public async Task<IActionResult> ConfirmDelete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
@@ -429,7 +444,7 @@ namespace Sgs.Attendance.Mvc.Controllers
                     return NotFound();
                 }
 
-                return View(_mapper.Map<VM>(currentData));
+                return deleteView(_mapper.Map<VM>(currentData));
             }
             catch (Exception)
             {
@@ -438,7 +453,7 @@ namespace Sgs.Attendance.Mvc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> ConfirmDelete(int id)
         {
             try
             {

@@ -8,9 +8,7 @@ using Sgs.Attendance.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-
 
 namespace Sgs.Attendance.Api.Controllers
 {
@@ -21,6 +19,11 @@ namespace Sgs.Attendance.Api.Controllers
             IMapper mapper, ILogger<WorkShiftsSystemsController> logger) : base(dataManager, mapper, logger)
         {
         }
+
+        //protected override async Task<List<ValidationResult>> checkNewData(WorkShiftsSystemModel newData)
+        //{
+        //    return await Task.FromResult(new List<ValidationResult> { new ValidationResult("test error", new string[] { "Code" })});
+        //}
 
         [HttpGet("ByCode/{code}", Name = "[controller]_[action]")]
         [ProducesResponseType(200)]

@@ -10,14 +10,14 @@ using Sgs.Attendance.DataAccess;
 namespace Sgs.Attendance.DataAccess.Migrations
 {
     [DbContext(typeof(AttendanceDb))]
-    [Migration("14400430055827_InitialCreate")]
+    [Migration("20190118125015_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
+                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -32,8 +32,6 @@ namespace Sgs.Attendance.DataAccess.Migrations
                         .HasMaxLength(20);
 
                     b.Property<int>("ManagerAttendanceProof");
-
-                    b.Property<bool>("ManagerExempted");
 
                     b.HasKey("Id");
 

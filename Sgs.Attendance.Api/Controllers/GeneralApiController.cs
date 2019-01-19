@@ -41,6 +41,16 @@ namespace Sgs.Attendance.Api.Controllers
             context.HttpContext.Items[CONTROLLER_NAME] = ControllerContext.ActionDescriptor.ControllerName;
         }
 
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            if (!context.ModelState.IsValid)
+            {
+                context.Result = new BadRequestObjectResult(new  {ErrorMessage = "Validation error", Errors = ModelState.Keys
+                .Select(key => new { Key = key, Errors = ModelState[key].Errors.Select(x => x.ErrorMessage) })
+                .ToList()});
+            }
+        }
+
         protected virtual async Task<List<VM>> fillItemsListMissingData(List<VM> resultData)
         {
             return await Task.FromResult(resultData);
@@ -82,19 +92,8 @@ namespace Sgs.Attendance.Api.Controllers
             {
                 using (_dataManager)
                 {
-                    var parameter = Expression.Parameter(typeof(M), "x");
-                    var member = Expression.Property(parameter, fieldName);
-                    var left = Expression.Call(member, typeof(string).GetMethod("Trim", Type.EmptyTypes));
-                    var left2 = Expression.Call(left, typeof(string).GetMethod("ToLower", Type.EmptyTypes));
-                    var constant = Expression.Constant(fieldValue);
-                    var right = Expression.Call(constant, typeof(string).GetMethod("Trim", Type.EmptyTypes));
-                    var right2 = Expression.Call(right, typeof(string).GetMethod("ToLower", Type.EmptyTypes));
-                    var body = Expression.Equal(left2, right2);
-                    var finalExpression = Expression.Lambda<Func<M, bool>>(body, parameter);
-
-                    //TODO:Update idata manager to accept expression
-                    var allDataList = await _dataManager.GetAllDataList();
-                    return await fillItemsListMissingData(_mapper.Map<List<VM>>(allDataList.Where(finalExpression.Compile())));
+                    var allDataList = await _dataManager.GetAllDataList(fieldName, fieldValue);
+                    return await fillItemsListMissingData(_mapper.Map<List<VM>>(allDataList));
                 }
             }
             catch (Exception ex)
@@ -152,7 +151,7 @@ namespace Sgs.Attendance.Api.Controllers
                     var currentData = await _dataManager.GetDataById(id);
 
                     if (currentData == null)
-                        return BadRequest(new { title = NOTFOUND_MESSAGE });
+                        return BadRequest(new { ErrorMessage = NOTFOUND_MESSAGE });
 
                     return await fillItemMissingData(_mapper.Map<VM>(currentData));
                 }
@@ -170,6 +169,7 @@ namespace Sgs.Attendance.Api.Controllers
         [ProducesResponseType(400)]
         public virtual async Task<ActionResult<VM>> PostAsync(VM model)
         {
+
             try
             {
                 _logger.LogInformation($"Creating a new {_objectTypeName} !");
@@ -244,7 +244,7 @@ namespace Sgs.Attendance.Api.Controllers
                     if (currentData == null)
                     {
                         _logger.LogWarning($"Could not find a {_objectTypeName} of an id of {id}");
-                        return BadRequest(new { title = NOTFOUND_MESSAGE });
+                        return BadRequest(new { ErrorMessage = NOTFOUND_MESSAGE });
                     }
 
                     var validationResults = await checkUpdateData(currentData, model);
@@ -288,7 +288,7 @@ namespace Sgs.Attendance.Api.Controllers
                 return BadRequest();
             }
 
-            return BadRequest(ModelState);
+            return BadRequest();
         }
 
         protected virtual async Task<List<ValidationResult>> checkUpdateData(M currentData, VM newData)
@@ -311,7 +311,7 @@ namespace Sgs.Attendance.Api.Controllers
                     if (currentData == null)
                     {
                         _logger.LogWarning($"Could not find a {_objectTypeName} of an id of {id}");
-                        return BadRequest(new { title = NOTFOUND_MESSAGE });
+                        return BadRequest(new { ErrorMessage = NOTFOUND_MESSAGE });
                     }
 
                     var validationResults = await checkDeleteData(currentData);
@@ -353,7 +353,7 @@ namespace Sgs.Attendance.Api.Controllers
                 return BadRequest();
             }
 
-            return BadRequest(ModelState);
+            return BadRequest();
         }
 
         protected virtual async Task<List<ValidationResult>> checkDeleteData(M currentData)

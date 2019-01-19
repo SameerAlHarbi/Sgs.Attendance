@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Sameer.Shared;
+using Sgs.Attendance.Mvc.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,23 +21,22 @@ namespace Sgs.Attendance.Mvc.Services
             _client = client;
         }
 
-        protected virtual async Task<(string errorMessage, bool notFoundData, bool modelStateError, string MemberName ,string MemberError)> getErrorResponseMessage(HttpResponseMessage response)
+        protected virtual async Task<(string errorMessage, bool notFoundData, bool modelStateError, List<ApiModelError> modelErrors)> getErrorResponseMessage(HttpResponseMessage response)
         {
             string httpErrorObject = await response.Content.ReadAsStringAsync();
-            // Deserialize:
             var deserializedErrorObject = JsonConvert
-                .DeserializeAnonymousType(httpErrorObject, new { message = "", ModelState = new { Member="" ,MemberError=""} });
+                .DeserializeAnonymousType(httpErrorObject, new { ErrorMessage = "", Errors = new List<ApiModelError>() });
 
             bool notFoundData = false;
 
-            if (deserializedErrorObject.message != null)
+            if (deserializedErrorObject.ErrorMessage != null)
             {
-               notFoundData = deserializedErrorObject.message.Trim().ToLower()  == "Not Found".Trim().ToLower();
+               notFoundData = deserializedErrorObject.ErrorMessage.Trim().ToLower()  == "Not Found".Trim().ToLower();
             }
 
-            bool modelStateError = deserializedErrorObject.ModelState != null;
+            bool modelStateError = deserializedErrorObject.Errors != null;
 
-            return (deserializedErrorObject.message??"",notFoundData,modelStateError,deserializedErrorObject.ModelState.Member,deserializedErrorObject.ModelState.MemberError);
+            return (deserializedErrorObject.ErrorMessage ?? "",notFoundData,modelStateError,deserializedErrorObject.Errors);
         }
 
         public virtual async Task<List<T>> GetAllDataList(string fieldName, string fieldValue)
@@ -163,7 +163,7 @@ namespace Sgs.Attendance.Mvc.Services
                     }
                     else if(errorData.modelStateError)
                     {
-                        throw new ValidationException(new ValidationResult(errorData.MemberError,new string[] { errorData.MemberName }),null,null);
+                        throw new ValidationException(new ValidationResult(errorData.modelErrors.First().Errors.First(),new string[] { errorData.modelErrors.First().Key }),validatingAttribute:null,value:newItem);
                     }
                     throw new Exception($"Internal Server Error");
                 }
@@ -178,9 +178,95 @@ namespace Sgs.Attendance.Mvc.Services
             }
         }
 
-        public virtual Task<DataActionResult<T>> DeleteDataItem(int itemId)
+        public virtual async Task<DataActionResult<T>> UpdateDataItem(T currentItem)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if(currentItem == null)
+                {
+                    throw new ArgumentNullException(nameof(currentItem),$"Current item to update can't be null !");
+                }
+
+                HttpResponseMessage response = await _client.PutAsJsonAsync<T>(currentItem.Id.ToString(), currentItem);
+
+                if(response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    currentItem = JsonConvert.DeserializeObject<T>(content);
+                    return new DataActionResult<T>(currentItem, RepositoryActionStatus.Updated);
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    throw new Exception("path not found");
+                }
+                else
+                {
+                    var errorData = await getErrorResponseMessage(response);
+                    if (errorData.notFoundData)
+                    {
+                        return new DataActionResult<T>(currentItem, RepositoryActionStatus.NotFound);
+                    }
+                    else if (errorData.modelStateError)
+                    {
+                        throw new ValidationException(new ValidationResult(errorData.modelErrors.First().Errors.First(), new string[] { errorData.modelErrors.First().Key }), validatingAttribute: null, value: currentItem );
+                    }
+                    throw new Exception($"Internal Server Error");
+                }
+
+            }
+            catch(ArgumentNullException)
+            {
+                throw;
+            }
+            catch (ValidationException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public virtual async Task<DataActionResult<T>> DeleteDataItem(int itemId)
+        {
+            try
+            {
+                HttpResponseMessage response = await _client.DeleteAsync(itemId.ToString());
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return new DataActionResult<T>(null,RepositoryActionStatus.Deleted);
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    throw new Exception("path not found");
+                }
+                else
+                {
+                    var errorData = await getErrorResponseMessage(response);
+                    if (errorData.notFoundData)
+                    {
+                        return new DataActionResult<T>(null, RepositoryActionStatus.NotFound);
+                    }
+                    else if (errorData.modelStateError)
+                    {
+                        throw new ValidationException(new ValidationResult(errorData.modelErrors.First().Errors.First(), new string[] { errorData.modelErrors.First().Key }), validatingAttribute: null, value: null);
+                    }
+                    throw new Exception($"Internal Server Error");
+                }
+
+
+            }
+            catch (ValidationException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public virtual void Dispose()
@@ -193,10 +279,7 @@ namespace Sgs.Attendance.Mvc.Services
             throw new NotImplementedException();
         }
 
-        public virtual Task<DataActionResult<T>> UpdateDataItem(T currentItem)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public virtual Task<IEnumerable<DataActionResult<T>>> InsertNewDataItems(IEnumerable<T> newItems)
         {

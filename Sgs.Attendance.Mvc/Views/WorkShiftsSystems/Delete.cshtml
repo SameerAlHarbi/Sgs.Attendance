@@ -1,0 +1,16 @@
+﻿@model WorkShiftsSystemViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+
+Are you sure ?
+
+<form asp-action="ConfirmDelete" method="post">
+    <input asp-for="Id" type="hidden" />
+    <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete </button>
+</form>
+

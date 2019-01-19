@@ -62,5 +62,10 @@ namespace Sgs.Attendance.Mvc.Controllers
                 return Json("خطأ أثناء التحقق ...!!");
             }
         }
+
+        protected override IActionResult editView(WorkShiftsSystemViewModel currentData)
+        {
+            return View("create", currentData);
+        }
     }
 }
