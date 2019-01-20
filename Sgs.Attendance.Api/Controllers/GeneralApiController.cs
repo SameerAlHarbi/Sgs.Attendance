@@ -45,7 +45,7 @@ namespace Sgs.Attendance.Api.Controllers
         {
             if (!context.ModelState.IsValid)
             {
-                context.Result = new BadRequestObjectResult(new  {ErrorMessage = "Validation error", Errors = ModelState.Keys
+                context.Result = new BadRequestObjectResult(new  {ErrorMessage = "Validation error", Errors = ModelState.Keys.Where(k => ModelState[k].Errors.Any())
                 .Select(key => new { Key = key, Errors = ModelState[key].Errors.Select(x => x.ErrorMessage) })
                 .ToList()});
             }

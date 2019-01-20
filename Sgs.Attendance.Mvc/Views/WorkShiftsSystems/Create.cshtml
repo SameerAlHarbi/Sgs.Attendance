@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-row">
-                <div class="col">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="Code" class="control-label">الرمز</label>
                         <input asp-for="Code" style="max-width:200px" class="form-control" title="رمز نظام الورديات" />
@@ -26,6 +26,7 @@
                         <label asp-for="IsDefaultWorkShiftsSystem" class="form-check-label">
                             النظام الإفتراضي للورديات
                         </label>
+                        <span asp-validation-for="IsDefaultWorkShiftsSystem" class="text-danger"></span>
                     </div>
                 </div>
             </div>

@@ -405,7 +405,7 @@ namespace Sgs.Attendance.Mvc.Controllers
                 catch (ValidationException ex)
                 {
                     _logger.LogWarning($"validation exception while edit {_objectTypeName} : {ex.ValidationResult.ErrorMessage}");
-                    ModelState.AddModelError("", ex.ValidationResult.ErrorMessage);
+                    ModelState.AddModelError(ex.ValidationResult.MemberNames.FirstOrDefault() ?? "", ex.ValidationResult.ErrorMessage);
                 }
                 catch (Exception ex)
                 {
