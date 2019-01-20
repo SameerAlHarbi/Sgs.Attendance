@@ -88,6 +88,7 @@ namespace Sgs.Attendance.DataAccess.Migrations
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     AttendanceProof = table.Column<int>(nullable: false),
+                    IsDefaultWorkShiftsSystem = table.Column<bool>(nullable: false),
                     Note = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

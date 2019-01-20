@@ -37,6 +37,8 @@ namespace Sgs.Attendance.Mvc.ViewModels
         [Display(Name = "إثبات الحضور")]
         public string AttendanceProofText => AttendanceProof.GetName();
 
+        public bool IsDefaultWorkShiftsSystem { get; set; }
+
         [Display(Name = "ملاحظات")]
         public string Note { get; set; }
     }

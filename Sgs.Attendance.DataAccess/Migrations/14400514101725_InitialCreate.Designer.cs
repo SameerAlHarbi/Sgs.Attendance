@@ -10,7 +10,7 @@ using Sgs.Attendance.DataAccess;
 namespace Sgs.Attendance.DataAccess.Migrations
 {
     [DbContext(typeof(AttendanceDb))]
-    [Migration("20190118125015_InitialCreate")]
+    [Migration("14400514101725_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -219,6 +219,8 @@ namespace Sgs.Attendance.DataAccess.Migrations
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(4);
+
+                    b.Property<bool>("IsDefaultWorkShiftsSystem");
 
                     b.Property<string>("Name")
                         .IsRequired()

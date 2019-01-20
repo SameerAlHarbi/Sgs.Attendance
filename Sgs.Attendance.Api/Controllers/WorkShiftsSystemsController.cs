@@ -8,6 +8,7 @@ using Sgs.Attendance.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Sgs.Attendance.Api.Controllers
@@ -20,10 +21,16 @@ namespace Sgs.Attendance.Api.Controllers
         {
         }
 
-        //protected override async Task<List<ValidationResult>> checkNewData(WorkShiftsSystemModel newData)
-        //{
-        //    return await Task.FromResult(new List<ValidationResult> { new ValidationResult("test error", new string[] { "Code" })});
-        //}
+        protected override async Task<List<ValidationResult>> checkNewData(WorkShiftsSystemModel newData)
+        {
+            var results = await base.checkNewData(newData);
+
+            var currentItem =  ((WorkShiftsSystemsManager)_dataManager).GetAll()
+                .Where(e => e.IsDefaultWorkShiftsSystem == newData.IsDefaultWorkShiftsSystem && e.Id != newData.Id && e.IsDefaultWorkShiftsSystem== true).FirstOrDefault();
+
+
+            return results;
+        }
 
         [HttpGet("ByCode/{code}", Name = "[controller]_[action]")]
         [ProducesResponseType(200)]

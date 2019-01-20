@@ -218,6 +218,8 @@ namespace Sgs.Attendance.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(4);
 
+                    b.Property<bool>("IsDefaultWorkShiftsSystem");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);

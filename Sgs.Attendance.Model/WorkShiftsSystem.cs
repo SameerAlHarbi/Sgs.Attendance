@@ -23,6 +23,9 @@ namespace Sgs.Attendance.Model
 
         public AttendanceProof AttendanceProof { get; set; }
 
+        [Unique(UniqueValue = true,ErrorMessage ="Default WorkShiftsSystem is already exist !")]
+        public bool IsDefaultWorkShiftsSystem { get; set; }
+
         public string Note { get; set; }
 
         public List<WorkShiftsSystemCycle> WorkShiftsSystemCycles { get; set; }

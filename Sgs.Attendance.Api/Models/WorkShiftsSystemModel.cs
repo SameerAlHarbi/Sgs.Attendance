@@ -21,6 +21,8 @@ namespace Sgs.Attendance.Api.Models
 
         public AttendanceProof AttendanceProof { get; set; }
 
+        public bool IsDefaultWorkShiftsSystem { get; set; }
+
         public string Note { get; set; }
     }
 }

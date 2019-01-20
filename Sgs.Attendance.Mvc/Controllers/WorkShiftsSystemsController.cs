@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -24,8 +26,6 @@ namespace Sgs.Attendance.Mvc.Controllers
         }
 
         protected override string createNewTitleMessage => "إضافة نظام ورديات جديد";
-
-
 
         [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> VerifyCode(string code, int? id = null)

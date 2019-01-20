@@ -22,7 +22,7 @@
         columns.Bound(c => c.Note);
         columns.Bound(c => c.Id).Title("تحكم").ClientTemplate(
             "<a href='" + Url.Action("Details") + "/#= Id #' class='text-info' title='تفاصيل'><i class='fa fa fa-info-circle'></i>  </a>" +
-            "<a href='" + Url.Action("Edit") + "/#= Id #' class='text-warning'><i class='fa fa-pencil-alt' title='تعديل'></i>  </a>" +
+            "<a href='" + Url.Action("Edit") + "/#= Id #' class='text-secondary'  title='تعديل'><i class='fa fa-pencil-alt'></i>  </a>" +
             "<a  href='" + Url.Action("Delete") + "/#= Id #' class='text-danger' style='margin-right:5px' title='حذف'><i class='fas fa-trash-alt'></i>  </a>");
     })
     .Sortable(s => s.SortMode(GridSortMode.SingleColumn))

@@ -15,6 +15,8 @@ namespace Sgs.Attendance.Mvc.Models
 
         public DateTime StartDate { get; set; }
 
+        public bool IsDefaultWorkShiftsSystem { get; set; }
+
         public AttendanceProof AttendanceProof { get; set; }
 
         public string Note { get; set; }

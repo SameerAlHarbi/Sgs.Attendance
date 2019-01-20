@@ -10,6 +10,7 @@ using Sameer.Shared;
 using Sameer.Shared.Helpers.Mvc;
 using Sgs.Attendance.Mvc.Models;
 using Sgs.Attendance.Mvc.Services;
+using System.Globalization;
 using System.Net.Http.Headers;
 
 namespace Sgs.Attendance.Mvc
@@ -69,6 +70,8 @@ namespace Sgs.Attendance.Mvc
             , IHostingEnvironment env
             , ILoggerFactory loggerFactory)
         {
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
