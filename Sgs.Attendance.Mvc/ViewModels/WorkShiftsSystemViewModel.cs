@@ -39,6 +39,9 @@ namespace Sgs.Attendance.Mvc.ViewModels
 
         public bool IsDefaultWorkShiftsSystem { get; set; }
 
+        [Display(Name = "التصنيف")]
+        public string WorkShiftsSystemType => IsDefaultWorkShiftsSystem ? "افتراضي":"فرعي";
+
         [Display(Name = "ملاحظات")]
         public string Note { get; set; }
     }
