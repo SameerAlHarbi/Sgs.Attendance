@@ -5,7 +5,8 @@ namespace Sgs.Attendance.DataAccess
 {
     public class AttendanceDb : DbContext
     {
-        public AttendanceDb(DbContextOptions<AttendanceDb> options) : base(options)
+        public AttendanceDb(DbContextOptions<AttendanceDb> options) 
+            : base(options)
         {
         }
 
